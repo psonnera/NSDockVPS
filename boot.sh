@@ -102,7 +102,7 @@ if [ ! -s cgm-remote-monitor ]
   then
   sudo git clone https://github.com/nightscout/cgm-remote-monitor.git
   else
-  echo -e "\x1b[30;43;1mNightscout is already forked here... updating it.                                             \x1b[0m"
+  echo -e "\x1b[30;43;1mNightscout is already forked here... updating it.                                               \x1b[0m"
   cd cgm-remote-monitor
   cp docker-compose.yml .. # Backup the configuration if already present
   sudo git reset --hard
@@ -123,7 +123,10 @@ sudo chmod 775 NSDockVPS/*.sh
 cd NSDockVPS
 sudo chown root:root startup.sh
 sudo mv -f startup.sh /etc/profile.d
-read -r -t 0.1 -s -e -- # clear buffer
+for j in {1..1000}
+do
+read -t 0.001 dummy
+done # clear buffer
 
 # Running Nightscout as root is not a good idea
 echo -e "\x1b[37;44mCreate a new user                                                                                 \x1b[0m"
@@ -168,7 +171,10 @@ echo
 echo -e "Oh... forgot, answer yes to: Are you sure you want to continue connecting (yes/no/[fingerprint])?"
 echo
 echo "Press any key when ready."
-read -r -t 0.1 -s -e -- # clear buffer
+for j in {1..1000}
+do
+read -t 0.001 dummy
+done # clear buffer
 
 echo "Press any key to continue"
 while [ true ] ; do
