@@ -52,23 +52,15 @@ sudo systemctl enable docker
 # Cleanup
 sudo apt autoremove
 
-ipaddress=`hostname -I | head -n1 | cut -d " " -f1`
-echo
-echo -e "\x1b[37;44mHere we are, pretty much done for this first phase.                                               \x1b[0m"
-echo -e "\x1b[37;44mNow I will log you log out and you will need to open a new ssh session with this command:         \x1b[0m"
-echo -e "\nssh $username@$ipaddress\n"
-echo -e "\x1b[37;44mUse this command every time you want to modify your Nightscout VPS.                               \x1b[0m"
-echo
-echo -e "Oh... forgot, answer yes to: Are you sure you want to continue connecting (yes/no/[fingerprint])?"
-echo
-echo "Press any key when ready."
-
-while [ true ] ; do
-  read -t 3 -n 1  </dev/tty
-  if [ $? = 0 ]
-    then
-    exit
-  fi
-done
-
-logout
+username=${SUDO_USER:-$USER}
+if [ $username = "root" ]
+  then
+  ipaddress=`hostname -I | head -n1 | cut -d " " -f1`
+  echo
+  echo -e "\x1b[37;44mHere we are, pretty much done for this first phase.                                               \x1b[0m"
+  echo -e "\x1b[37;44mUse this command every time you want to modify your Nightscout VPS. Please write it down.         \x1b[0m"
+  echo -e "\nssh $username@$ipaddress\n"
+  su -c '/nightscout/NSDockVPS/menu.sh' $username
+  else
+  sudo /nightscout/NSDockVPS/menu.sh
+fi
