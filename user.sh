@@ -12,13 +12,13 @@
 echo -e "\x1b[37;44mCreate a new user                                                                                 \x1b[0m"
 
 username=$USER
-if [ $username = root ]
+if [ $username = "root" ]
   then
   echo -e "\x1b[37;44mYou are logged as root. It is not a good idea to run Nightscout as root.                          \x1b[0m"
   echo "Let's create a new user."
   read -p "Enter a user name (lowercase letters and numbers, no space, no special characters: " username </dev/tty
 
-  while [ $username = root ] || [ $username = "" ]
+  while [ $username = "root" ] || [ $username = "" ]
     do
     read -p "Enter a user name (lowercase letters and numbers, no space, no special characters: " username </dev/tty
 	echo $username
