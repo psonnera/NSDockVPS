@@ -126,14 +126,14 @@ sudo mv -f startup.sh /etc/profile.d
 
 # Running Nightscout as root is not a good idea
 echo -e "\x1b[37;44mCreate a new user                                                                                 \x1b[0m"
-iu=0
-if [ $USER = root ]
+
+username=$USER
+if [ $username = root ]
   then
   echo -e "\x1b[37;44mYou are logged as root. It is not a good idea to run Nightscout as root.                          \x1b[0m"
   echo "Let's create a new user."
 
-  username="!"
-  while [ ${#username} < 2 ]
+  while [ $username = root ]
     do
     read -p "Enter a user name (lowercase letters and numbers, no space, no special characters: " username
   done
