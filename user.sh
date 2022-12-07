@@ -42,6 +42,11 @@ if [ $username = root ]
     sudo useradd -s /bin/bash -d /nightscout $username
   done
   echo -e "\x1b[37;44mCreate a secure password for your new user. Make sure to write it down somewhere.                 \x1b[0m"
+
+  for j in {1..1000}
+    do
+    read -t 0.001 dummy
+  done
   sudo passwd $username
 fi
 sudo usermod -aG sudo $username  # make user sudoer
@@ -55,10 +60,11 @@ sudo systemctl enable docker
 # Cleanup
 sudo apt autoremove
 
-ipaddress=`hostname -I`
+ipaddress=`hostname -I | head -n1 | cut -d " " -f1`
+echo
 echo -e "\x1b[37;44mHere we are, pretty much done for this first phase.                                               \x1b[0m"
 echo -e "\x1b[37;44mNow I will log you log out and you will need to open a new ssh session with this command:         \x1b[0m"
-echo -e "\nssh $username@${ipaddress[0]}\n"
+echo -e "\nssh $username@$ipaddress\n"
 echo -e "\x1b[37;44mUse this command every time you want to modify your Nightscout VPS.                               \x1b[0m"
 echo
 echo -e "Oh... forgot, answer yes to: Are you sure you want to continue connecting (yes/no/[fingerprint])?"
