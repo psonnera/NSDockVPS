@@ -131,7 +131,12 @@ if [ $USER = root ]
   then
   echo -e "\x1b[37;44mYou are logged as root. It is not a good idea to run Nightscout as root.                          \x1b[0m"
   echo "Let's create a new user."
-  read -p "Enter a user name (lowercase letters and numbers, no space, no special characters: " username
+
+  username=""
+  while [ $username = ""]
+    do
+    read -p "Enter a user name (lowercase letters and numbers, no space, no special characters: " username
+  done
   while [ "`grep $username /etc/passwd`" != "" ]
     do
     echo -e "\x1b[37;43;1mThis user name already exists.\x1b[0m"
