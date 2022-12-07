@@ -64,7 +64,7 @@ echo
 echo "Press any key when ready."
 
 while [ true ] ; do
-  read -t 3 -n 1
+  read -t 3 -n 1  </dev/tty
   if [ $? = 0 ]
     then
     exit
