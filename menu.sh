@@ -14,7 +14,7 @@ echo -e "\x1b[37;44mStarting the main menu                                      
 cd /nightscout
 while :
 do
-  if [ ! -s config_dns ]
+  if [ ! -s config_dns.txt ]
     then
     HEIGHT=15
     WIDTH=40
