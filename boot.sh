@@ -132,8 +132,8 @@ if [ $USER = root ]
   echo -e "\x1b[37;44mYou are logged as root. It is not a good idea to run Nightscout as root.                          \x1b[0m"
   echo "Let's create a new user."
 
-  username=""
-  while [ -z "$username" ]
+  username="!"
+  while [ ${#username} < 2 ]
     do
     read -p "Enter a user name (lowercase letters and numbers, no space, no special characters: " username
   done
