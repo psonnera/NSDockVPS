@@ -10,10 +10,6 @@
 # Running Nightscout as root is not a good idea
 
 echo -e "\x1b[37;44mCreate a new user                                                                                 \x1b[0m"
-for j in {1..1000}
-do
-read -t 0.001 dummy
-done
 
 username=$USER
 if [ $username = root ]
@@ -43,11 +39,7 @@ if [ $username = root ]
   done
   echo -e "\x1b[37;44mCreate a secure password for your new user. Make sure to write it down somewhere.                 \x1b[0m"
 
-  for j in {1..1000}
-    do
-    read -t 0.001 dummy
-  done
-  sudo passwd $username
+  sudo passwd $username  </dev/tty
 fi
 sudo usermod -aG sudo $username  # make user sudoer
 
