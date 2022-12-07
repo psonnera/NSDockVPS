@@ -133,7 +133,7 @@ if [ $USER = root ]
   echo "Let's create a new user."
 
   username=""
-  while [ $username = ""]
+  while [ -z "$username"]
     do
     read -p "Enter a user name (lowercase letters and numbers, no space, no special characters: " username
   done
