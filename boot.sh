@@ -82,7 +82,7 @@ echo -e "\x1b[37;44mInstalling Docker.                                          
 sudo apt-get update
 sudo apt-get -y install ca-certificates curl gnupg lsb-release
 sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg --yes
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -103,22 +103,26 @@ if [ ! -s cgm-remote-monitor ]
   sudo git clone https://github.com/nightscout/cgm-remote-monitor.git
   else
   echo -e "\x1b[30;43;1mNightscout is already forked here... updating it.                                             \x1b[0m"
-  cp cgm-remote-monitor/docker-compose.yml . # Backup the configuration if already present
+  cd cgm-remote-monitor
+  cp docker-compose.yml .. # Backup the configuration if already present
   sudo git reset --hard
   sudo git pull
-  cp docker-compose.yml cgm-remote-monitor/. # Restore
+  cp ../docker-compose.yml . # Restore
+  cd ..
 fi
 if [ ! -s NSDockVPS ] # copy the scripts or update them
   then
   sudo git clone https://github.com/psonnera/NSDockVPS.git
   else
+  cd NSDockVPS
   sudo git reset --hard
   sudo git pull
+  cd ..
 fi
 sudo chmod 775 NSDockVPS/*.sh
 cd NSDockVPS
-sudo chown root:root menu.sh
-sudo mv -f menu.sh /etc/profile.d
+sudo chown root:root startup.sh
+sudo mv -f startup.sh /etc/profile.d
 
 # Running Nightscout as root is not a good idea
 echo -e "\x1b[37;44mCreate a new user                                                                                 \x1b[0m"
@@ -133,12 +137,12 @@ if [ $USER = root ]
     echo -e "\x1b[37;43;1mThis user name already exists.\x1b[0m"
     read -p "Enter a username (lowercase letters and numbers, no space, no special characters: " username
   done
-  sudo useradd $username
+  sudo useradd -s /bin/bash -d /nightscout $username
   while [ -z "`grep $username /etc/passwd`" ]
     do
     echo -e "\x1b[37;43;1mInvalid username.\x1b[0m"
     read -p "Enter a username (lowercase letters and numbers, no space, no special characters: " username
-    sudo useradd $username
+    sudo useradd -s /bin/bash -d /nightscout $username
   done
   echo -e "\x1b[37;44mCreate a secure password for your new user. Make sure to write it down somewhere.                 \x1b[0m"
   sudo passwd $username
@@ -154,8 +158,24 @@ sudo systemctl enable docker
 # Cleanup
 sudo apt autoremove
 
+ipaddress=`hostname -I`
 echo -e "\x1b[37;44mHere we are, pretty much done for this first phase.                                               \x1b[0m"
-echo -e "\x1b[37;44mNow log out (Ctrl-D) and open a new ssh session with this command:                                \x1b[0m"
-echo "ssh $username@yourserverIP"
-echo -e "\x1b[37;44mReplace yourserverIP with the real VPS IP.                                                        \x1b[0m"
+echo -e "\x1b[37;44mNow I will log you log out and you will need to open a new ssh session with this command:         \x1b[0m"
+echo -e "\nssh $username@${ipaddress[0]}\n"
+echo -e "\x1b[37;44mUse this command every time you want to modify your Nightscout VPS.                               \x1b[0m"
 echo
+echo -e "Oh... forgot, answer yes to: Are you sure you want to continue connecting (yes/no/[fingerprint])?"
+echo
+echo "Press any key when ready."
+read -r -t 0.1 -s -e -- # clear buffer
+
+echo "Press any key to continue"
+while [ true ] ; do
+  read -t 3 -n 1
+  if [ $? = 0 ]
+    then
+    exit
+  fi
+done
+
+logout
