@@ -123,6 +123,7 @@ sudo chmod 775 NSDockVPS/*.sh
 cd NSDockVPS
 sudo chown root:root startup.sh
 sudo mv -f startup.sh /etc/profile.d
+read -r -t 0.1 -s -e -- # clear buffer
 
 # Running Nightscout as root is not a good idea
 echo -e "\x1b[37;44mCreate a new user                                                                                 \x1b[0m"
