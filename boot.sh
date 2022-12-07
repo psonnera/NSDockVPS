@@ -97,19 +97,7 @@ sudo chmod 775 /nightscout
 cd nightscout
 
 # Clone the repos locally
-echo -e "\x1b[37;44mForking Nightscout.                                                                               \x1b[0m"
-if [ ! -s cgm-remote-monitor ]
-  then
-  sudo git clone https://github.com/nightscout/cgm-remote-monitor.git
-  else
-  echo -e "\x1b[33;44;1mNightscout is already forked here... updating it.                                                 \x1b[0m"
-  cd cgm-remote-monitor
-  cp docker-compose.yml .. # Backup the configuration if already present
-  sudo git reset --hard
-  sudo git pull
-  cp ../docker-compose.yml . # Restore
-  cd ..
-fi
+echo -e "\x1b[37;44mForking scripts and Nightscout.                                                                   \x1b[0m"
 if [ ! -s NSDockVPS ] # copy the scripts or update them
   then
   sudo git clone https://github.com/psonnera/NSDockVPS.git
@@ -124,4 +112,19 @@ cd NSDockVPS
 sudo chown root:root startup.sh
 sudo mv -f startup.sh /etc/profile.d
 
+if [ ! -s cgm-remote-monitor ]
+  then
+  sudo git clone https://github.com/nightscout/cgm-remote-monitor.git
+  else
+  echo -e "\x1b[33;44;1mNightscout is already forked here... updating it.                                                 \x1b[0m"
+  cd cgm-remote-monitor
+  cp docker-compose.yml .. # Backup the configuration if already present
+  sudo git reset --hard
+  sudo git pull
+  cp ../docker-compose.yml . # Restore
+  cd ..
+fi
+
+echo -e "\x1b[37;44mWaiting for completion.                                                                           \x1b[0m"
+sleep 1
 sudo ./user.sh
