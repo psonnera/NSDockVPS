@@ -33,6 +33,7 @@ if [ $username = root ]
     read -p "Enter a username (lowercase letters and numbers, no space, no special characters: " username </dev/tty
 	echo $username
   done
+  sudo useradd -s /bin/bash -d /nightscout $username
   while [ -z "`grep $username /etc/passwd`" ]
     do
     echo -e "\x1b[37;43;1mInvalid username.\x1b[0m"

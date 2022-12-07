@@ -13,7 +13,7 @@
 ######################################################################################################
 
 reset
-echo -e "\x1b[37;44;1m Nightscout Scripted Install on Ubuntu VPS \x1b[0m"
+echo -e "\x1b[37;44;1m   Nightscout Scripted Install on Ubuntu VPS   \x1b[0m"
 echo
 echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⣴⣶⣾⣿⣿⣿⣿⣿⣷⣶⣦⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣶⣿⣿⣿⡿⠿⠛⠛⠛⠛⠛⠛⠛⠿⢿⣿⣿⣿⣷⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
@@ -125,6 +125,5 @@ if [ ! -s cgm-remote-monitor ]
   cd ..
 fi
 
-echo -e "\x1b[37;44mWaiting for completion.                                                                           \x1b[0m"
 sleep 1
 sudo ./user.sh
