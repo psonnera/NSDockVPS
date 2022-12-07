@@ -10,28 +10,33 @@
 # Running Nightscout as root is not a good idea
 
 echo -e "\x1b[37;44mCreate a new user                                                                                 \x1b[0m"
+for j in {1..1000}
+do
+read -t 0.001 dummy
+done
 
 username=$USER
 if [ $username = root ]
   then
   echo -e "\x1b[37;44mYou are logged as root. It is not a good idea to run Nightscout as root.                          \x1b[0m"
   echo "Let's create a new user."
+  read -p "Enter a user name (lowercase letters and numbers, no space, no special characters: " username </dev/tty
 
   while [ $username = root ] || [ $username = "" ]
     do
-    read -p "Enter a user name (lowercase letters and numbers, no space, no special characters: " username
+    read -p "Enter a user name (lowercase letters and numbers, no space, no special characters: " username </dev/tty
 	echo $username
   done
   while [ "`grep $username /etc/passwd`" != "" ]
     do
     echo -e "\x1b[37;43;1mThis user name already exists.\x1b[0m"
-    read -p "Enter a username (lowercase letters and numbers, no space, no special characters: " username
+    read -p "Enter a username (lowercase letters and numbers, no space, no special characters: " username </dev/tty
 	echo $username
   done
   while [ -z "`grep $username /etc/passwd`" ]
     do
     echo -e "\x1b[37;43;1mInvalid username.\x1b[0m"
-    read -p "Enter a username (lowercase letters and numbers, no space, no special characters: " username
+    read -p "Enter a username (lowercase letters and numbers, no space, no special characters: " username </dev/tty
 	echo $username
     sudo useradd -s /bin/bash -d /nightscout $username
   done
