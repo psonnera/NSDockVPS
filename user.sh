@@ -53,6 +53,7 @@ sudo usermod -aG docker $username
 sudo systemctl enable docker
 
 sudo chown -R $username /nightscout
+sudo rm /nightscout/NSDockVPS/config_dns.txt
 
 # Cleanup
 sudo apt autoremove

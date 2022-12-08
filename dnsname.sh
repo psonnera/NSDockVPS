@@ -8,7 +8,6 @@
 ######################################################################################################
 
 echo -e "\x1b[37;44mConfigure DNS name.                                                                               \x1b[0m"
-sudo rm config_dns.txt
 
 BACKTITLE="Nightscout Docker VPS Initial configuration"
 ipaddress=`hostname -I | head -n1 | cut -d " " -f1`
