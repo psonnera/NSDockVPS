@@ -38,4 +38,5 @@ And this VPS is at IP = $ipaddress \n\
 
 done
 
-sudo /nightscout/NSDockVPS/menu.sh
+cd /nightscout/NSDockVPS
+sudo ./menu.sh

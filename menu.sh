@@ -13,9 +13,10 @@ echo -e "\x1b[37;44mNightscout Docker VPS Initial configuration                 
 
 cd /nightscout
 
-if [ -s config_dns.txt ] # DDNS configuration undefined
+if [ -f config_dns.txt ] # DDNS configuration undefined
   then
-  sudo /nightscout/NSDockVPS/dnsname.sh
+  cd /nightscout/NSDockVPS
+  sudo ./dnsname.sh
 fi
 
 #update docker.yml
@@ -31,7 +32,7 @@ exit
 
 while :
 do
-  if [ ! -s config_dns.txt ]
+  if [ ! -f config_dns.txt ]
     then
     HEIGHT=15
     WIDTH=40

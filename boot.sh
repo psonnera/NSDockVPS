@@ -127,4 +127,5 @@ if [ ! -s cgm-remote-monitor ]
 fi
 
 sleep 1
+cd /nightscout/NSDockVPS
 sudo ./user.sh

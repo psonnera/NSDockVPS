@@ -52,8 +52,8 @@ sudo systemctl enable docker
 # Cleanup
 sudo apt autoremove
 
-username=${SUDO_USER:-$USER}
-if [ $username = "root" ]
+cd /nightscout/NSDockVPS
+if [ ${SUDO_USER:-$USER} = "root" ]
   then
   ipaddress=`hostname -I | head -n1 | cut -d " " -f1`
   echo
@@ -62,7 +62,9 @@ if [ $username = "root" ]
   echo -e "\nssh $username@$ipaddress\n"
   echo -e "\n\nPress Enter to continue."
   read dummy </dev/tty
-  su -c '/nightscout/NSDockVPS/menu.sh' $username
+  su -c 'sudo ./menu.sh' $username
+  logout
+  echo "Ok, didn't work the way I expected. Logout and open a new terminal with the command above.
   else
-  sudo /nightscout/NSDockVPS/menu.sh
+  sudo ./menu.sh
 fi

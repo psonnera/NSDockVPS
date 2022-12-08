@@ -9,4 +9,4 @@
 
 echo -e "\x1b[37;44mWelcome to Nightscout.                                                                            \x1b[0m"
 cd /nightscout/NSDockVPS
-./menu.sh
+sudo ./menu.sh
