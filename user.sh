@@ -60,6 +60,8 @@ if [ $username = "root" ]
   echo -e "\x1b[37;44mHere we are, pretty much done for this first phase.                                               \x1b[0m"
   echo -e "\x1b[37;44mUse this command every time you want to modify your Nightscout VPS. Please write it down.         \x1b[0m"
   echo -e "\nssh $username@$ipaddress\n"
+  echo -e "\n\nPress Enter to continue."
+  read dummy </dev/tty
   su -c '/nightscout/NSDockVPS/menu.sh' $username
   else
   sudo /nightscout/NSDockVPS/menu.sh

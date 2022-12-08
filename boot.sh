@@ -94,7 +94,7 @@ if [ ! -s nightscout ] # This will be our working directory
   sudo mkdir nightscout
 fi
 sudo chmod 775 /nightscout
-cd nightscout
+cd /nightscout
 
 # Clone the repos locally
 echo -e "\x1b[37;44mForking scripts and Nightscout.                                                                   \x1b[0m"
@@ -111,6 +111,7 @@ sudo chmod 775 NSDockVPS/*.sh
 cd NSDockVPS
 sudo chown root:root startup.sh
 sudo mv -f startup.sh /etc/profile.d
+cd /nightscout
 
 if [ ! -s cgm-remote-monitor ]
   then

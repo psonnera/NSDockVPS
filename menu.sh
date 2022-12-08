@@ -9,9 +9,26 @@
 #
 ######################################################################################################
 
-echo -e "\x1b[37;44mStarting the main menu                                                                            \x1b[0m"
+echo -e "\x1b[37;44mNightscout Docker VPS Initial configuration                                                       \x1b[0m"
 
 cd /nightscout
+
+if [ -s config_dns.txt ] # DDNS configuration undefined
+  then
+  sudo /nightscout/NSDockVPS/dnsname.sh
+fi
+
+#update docker.yml
+
+#setup core variables
+#update docker.yml
+
+#start docker image build
+
+#real main menu
+
+exit
+
 while :
 do
   if [ ! -s config_dns.txt ]
@@ -26,13 +43,13 @@ do
          2 "View status")
 
     CHOICE=$(dialog --clear \
-                --backtitle "$BACKTITLE" \
-                --title "$TITLE" \
-                --menu "$MENU" \
-                $HEIGHT $WIDTH $CHOICE_HEIGHT \
-                "${OPTIONS[@]}" \
-                2>&1 >/dev/tty)
-
+        --backtitle "$BACKTITLE" \
+        --title "$TITLE" \
+        --menu "$MENU" \
+        $HEIGHT $WIDTH $CHOICE_HEIGHT \
+        "${OPTIONS[@]}" \
+        2>&1 >/dev/tty)
+		
     clear
     case $CHOICE in
         1)
