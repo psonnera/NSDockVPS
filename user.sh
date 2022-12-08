@@ -52,6 +52,8 @@ sudo groupadd docker
 sudo usermod -aG docker $username
 sudo systemctl enable docker
 
+sudo chown -R $username /nightscout
+
 # Cleanup
 sudo apt autoremove
 
