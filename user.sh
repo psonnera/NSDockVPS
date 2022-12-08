@@ -39,7 +39,10 @@ if [ $username = "root" ]
   done
   echo -e "\x1b[37;44mCreate a secure password for your new user. Make sure to write it down somewhere.                 \x1b[0m"
 
-  sudo passwd $username  </dev/tty
+  while [ "`sudo passwd -S $username | grep "$username L"`" ]
+    do
+    sudo passwd $username  </dev/tty
+  done
 fi
 sudo usermod -aG sudo $username  # make user sudoer
 
