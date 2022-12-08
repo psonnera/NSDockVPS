@@ -60,11 +60,9 @@ if [ ${SUDO_USER:-$USER} = "root" ]
   echo -e "\x1b[37;44mHere we are, pretty much done for this first phase.                                               \x1b[0m"
   echo -e "\x1b[37;44mUse this command every time you want to modify your Nightscout VPS. Please write it down.         \x1b[0m"
   echo -e "\nssh $username@$ipaddress\n"
+  echo -e "\x1b[37;44mLogout and open a new terminal with the command above.                                            \x1b[0m"
   echo -e "\n\nPress Enter to continue."
   read dummy </dev/tty
-  su -c 'sudo ./menu.sh' $username
-  logout
-  echo "Ok, didn't work the way I expected. Logout and open a new terminal with the command above.
   else
   sudo ./menu.sh
 fi

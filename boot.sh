@@ -89,7 +89,7 @@ echo \
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 cd /
-if [ ! -s nightscout ] # This will be our working directory
+if [ ! -d nightscout ] # This will be our working directory
   then
   sudo mkdir nightscout
 fi
@@ -98,7 +98,7 @@ cd /nightscout
 
 # Clone the repos locally
 echo -e "\x1b[37;44mForking scripts and Nightscout.                                                                   \x1b[0m"
-if [ ! -s NSDockVPS ] # copy the scripts or update them
+if [ ! -d NSDockVPS ] # copy the scripts or update them
   then
   sudo git clone https://github.com/psonnera/NSDockVPS.git
   else
@@ -107,13 +107,13 @@ if [ ! -s NSDockVPS ] # copy the scripts or update them
   sudo git pull
   cd ..
 fi
-sudo chmod 775 NSDockVPS/*.sh
+sudo chmod 775 /nightscout/NSDockVPS/*.sh
 cd NSDockVPS
 sudo chown root:root startup.sh
 sudo mv -f startup.sh /etc/profile.d
-cd /nightscout
+cd ..
 
-if [ ! -s cgm-remote-monitor ]
+if [ ! -d cgm-remote-monitor ]
   then
   sudo git clone https://github.com/nightscout/cgm-remote-monitor.git
   else
