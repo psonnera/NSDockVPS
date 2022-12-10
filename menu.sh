@@ -11,24 +11,14 @@
 
 echo -e "\x1b[37;44mNightscout Docker VPS Initial configuration                                                       \x1b[0m"
 
-cd /nightscout
+# check this is the first run or not
 
-if [ ! -f config_dns.txt ] # DDNS configuration undefined
-  then
-  cd /nightscout/NSDockVPS
-  sudo ./dnsname.sh
+cd /nightscout/NSDockVPS
+
+if [ ! "`sudo docker ps -a | grep "bash"`" ] # any container running?
+then
+  sudo ./initial.sh
 fi
-
-#update docker.yml
-
-#setup core variables
-#update docker.yml
-
-#start docker image build
-
-#real main menu
-
-exit
 
 while :
 do
@@ -37,11 +27,11 @@ do
     HEIGHT=15
     WIDTH=40
     CHOICE_HEIGHT=3
-    BACKTITLE="Nightscout Docker VPS Initial configuration"
-    TITLE="Nightscout setup"
+    BACKTITLE="Nightscout Docker VPS Management"
+    TITLE="Nightscout Management"
     MENU="Use up/down arrows to select:"
-    OPTIONS=(1 "Configure server name"
-         2 "View status")
+    OPTIONS=(1 "View Nightscout status"
+         2 "Exit to command prompt")
 
     CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
@@ -54,13 +44,10 @@ do
     clear
     case $CHOICE in
         1)
-            echo "You chose Option 1"
+            echo "Yes"
             ;;
         2)
-            echo "You chose Option 2"
-            ;;
-        3)
-            echo "You chose Option 3"
+            exit
             ;;
     esac
   fi

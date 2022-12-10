@@ -45,6 +45,17 @@ echo "               Welcome to Nightscout."
 echo "         Open source. Open data. Open hearts."
 echo
 sleep 5
+clear
+echo -e "\x1b[37;44m                                                                                                  \x1b[0m"
+echo -e "\x1b[37;44m            DISCLAIMER                                                                            \x1b[0m"
+echo -e "\x1b[37;44m                                                                                                  \x1b[0m"
+echo -e "\nThis scripted Nightscout deployment is provided for educational purposes only.\n"
+echo -e "NEITHER THE AUTHOR NOR CONTRIBUTORS TO THE PUBLIC REPOSITORIES INVOLVED SHALL BE LIABLE FOR ANY DAMAGES\n OR LOSSES ARISING\
+ FROM ANY USE, MISUSE, RELIANCE ON, INABILITY TO USE, INTERRUPTION, SUSPENSION OR TERMINATION\nOF THIS NIGHTSCOUT AND ITS ENVIRONMENT,\
+ INCLUDING ANY INTERRUPTIONS DUE TO SYSTEM FAILURES, NETWORK ATTACKS,\nOR SCHEDULED OR UNSCHEDULED MAINTENANCE OF THE VPS."
+echo -e "\nPress Enter to continue and accept, press Ctrl-C or close this window if you do not agree.\n"
+read dummy </dev/tty
+
 echo -e "\x1b[37;44mLet me prepare things for you...                                                                  \x1b[0m"
 echo
 
@@ -67,15 +78,30 @@ echo -e "\x1b[37;44mInstalling utilities.                                       
 sudo apt-get -y install dialog
 sudo apt-get -y install nano
 
-# Let's create a swap file if not already done
-#echo -e "\x1b[37;44mCreating a swap file.                                                                             \x1b[0m"
-#if [ ! -s /var/SWAP ]
-#  then
-#  sudo dd if=/dev/zero of=/var/SWAP bs=1M count=2048
-#  sudo chmod 600 /var/SWAP
-#  sudo mkswap /var/SWAP
-#fi
-#swapon 2>/dev/null /var/SWAP
+# Now let's see what kind of VPS we're working on
+
+# What's the free space with a bare Ubuntu install?
+dskspace="$(df / | sed -n 2p | awk '{print $4}')"
+if [ "$dskspace" -lt 10485760 ] # less than 10GB free
+then
+  echo -e "\x1b[37;44mThis is a very small VPS, no swap file and forced logs cleanup.                                   \x1b[0m"
+	# If it's a small VPS we need to keep it clean
+	sudo cat > /etc/cron.daily/journalctl << "EOF"
+#!/bin/sh
+journalctl --vacuum-size=100M
+truncate /var/log/auth.log --size 100k
+EOF
+  else
+  # Let's create a swap file if not already done
+  echo -e "\x1b[37;44mCreating a swap file.                                                                             \x1b[0m"
+  if [ ! -s /var/SWAP ]
+    then
+    sudo dd if=/dev/zero of=/var/SWAP bs=1M count=2048
+    sudo chmod 600 /var/SWAP
+    sudo mkswap /var/SWAP
+  fi
+  sudo swapon 2>/dev/null /var/SWAP
+fi
 
 # Now install Docker
 echo -e "\x1b[37;44mInstalling Docker.                                                                                \x1b[0m"
@@ -119,10 +145,13 @@ if [ ! -d cgm-remote-monitor ]
   else
   echo -e "\x1b[33;44;1mNightscout is already forked here... updating it.                                                 \x1b[0m"
   cd cgm-remote-monitor
-  sudo cp docker-compose.yml .. # Backup the configuration if already present
+  if [ "`grep "version: '3.4.1'" docker-compose.yml`" != "" ]
+  then
+    sudo cp docker-compose.yml .. # Backup the configuration if already present
+  fi
   sudo git reset --hard
   sudo git pull
-  sudo cp ../docker-compose.yml . # Restore
+  sudo cp ../docker-compose.yml . # Restore or install yml
   cd ..
 fi
 
