@@ -59,6 +59,14 @@ read dummy </dev/tty
 echo -e "\x1b[37;44mLet me prepare things for you...                                                                  \x1b[0m"
 echo
 
+sudo apt-get -y install screen
+sudo screen -S boot	# some scripts are long, we are at risk of terminal timeout
+sudo cat > /etc/profile.d/resume.sh << "EOF"
+#!/bin/sh
+sudo screen -r boot
+EOF
+sudo chmod +x /etc/profile.d/resume.sh
+
 # Let's update and cleanup
 sudo apt-get update
 
@@ -139,6 +147,9 @@ sudo chown root:root startup.sh
 sudo mv -f startup.sh /etc/profile.d
 cd ..
 
+sudo rm /etc/profile.d/resume.sh	# boot phase is over we don't need to recover this session
+screen -XS boot quit
+
 if [ ! -d cgm-remote-monitor ]
   then
   sudo git clone https://github.com/nightscout/cgm-remote-monitor.git
@@ -148,10 +159,11 @@ if [ ! -d cgm-remote-monitor ]
   if [ "`grep "version: '3.4.1'" docker-compose.yml`" != "" ]
   then
     sudo cp docker-compose.yml .. # Backup the configuration if already present
+  else
+    sudo mv ../NSDockVPS/docker-compose.yml .. # or copy the project yml
   fi
   sudo git reset --hard
   sudo git pull
-  sudo cp ../docker-compose.yml . # Restore or install yml
   cd ..
 fi
 
