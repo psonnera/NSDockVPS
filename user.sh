@@ -15,7 +15,7 @@ username=${SUDO_USER:-$USER}
 if [ $username = "root" ]
   then
   echo -e "\x1b[37;44mYou are logged as root. It is not a good idea to run Nightscout as root.                          \x1b[0m"
-  echo "Let's create a new user."
+  echo "If you already created a user and logged in as root by mistake, close this terminal and log with your user.\n Else let's create a new user now."
   read -p "Enter a user name (lowercase letters and numbers, no space, no special characters: " username </dev/tty
 
   while [ $username = "root" ] || [ $username = "" ]
@@ -68,8 +68,8 @@ if [ ${SUDO_USER:-$USER} = "root" ]
   echo -e "\x1b[37;44mUse this command every time you want to modify your Nightscout VPS. Please write it down.         \x1b[0m"
   echo -e "\nssh $username@$ipaddress\n"
   echo -e "\x1b[37;44mLogout and open a new terminal with the command above.                                            \x1b[0m"
-  echo -e "\n\nPress Enter to continue."
-  read dummy </dev/tty
+  echo -e "\n\nPress Enter to continue. Then type logout or Ctr-D."
+  read dummy </dev/tty 
   else
   sudo ./menu.sh
 fi

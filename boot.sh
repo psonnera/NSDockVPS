@@ -156,10 +156,8 @@ fi
 
 cd /nightscout/NSDockVPS
 sudo chown root:root startup.sh
-sudo mv -f startup.sh /etc/profile.d
-cd ..
+sudo mv -f startup.sh /etc/profile.d	# Let's make startup autostart
 
 sleep 1
-cd /nightscout/NSDockVPS
-
+sudo ./startup.sh
 
