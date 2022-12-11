@@ -60,6 +60,7 @@ echo -e "\x1b[37;44mLet me prepare things for you...                            
 echo
 
 sudo apt-get update
+sudo apt-get -y install git
 
 if [ ! -d /nightscout ] # This will be our working directory
   then
