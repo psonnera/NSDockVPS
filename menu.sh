@@ -22,7 +22,12 @@ then
   sudo ./initial.sh
 fi
 
+username=${SUDO_USER:-$USER}
+sudo chown -R $username:$username /nightscout/cgm-remote-monitor
+sudo chown -R $username:$username /nightscout/NSDockVPS
+
 prompt=0
+
 while [ $prompt = 0 ]
 do
   HEIGHT=16
@@ -56,8 +61,8 @@ do
       2)
 	    cd /nightscout/NSDockVPS
 		sudo cp config_dns.txt ..
-		sudo git reset --hard
-        sudo git pull
+		git reset --hard
+        git pull
         sudo cp ../config_dns.txt .
 		sudo chmod 775 *.sh
 	    dialog --colors --msgbox " You need to restart the menu to validate changes.\n Enter \Zrmenu\Zn at the prompt to complete update." 6 60
