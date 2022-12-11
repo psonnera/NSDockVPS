@@ -10,9 +10,6 @@
 echo -e "\x1b[37;44mLet me prepare things for you...                                                                  \x1b[0m"
 echo
 
-# Let's update and cleanup
-sudo apt-get update
-
 # We need 20.04 for the MongoDB issue with 22.04
 echo -e "\x1b[37;44mChecking OS is Ubuntu 20.04.                                                                      \x1b[0m"
 ubversion="$(cat /etc/issue | awk '{print $2}')"
@@ -66,26 +63,8 @@ echo \
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 cd /
-if [ ! -d nightscout ] # This will be our working directory
-  then
-  sudo mkdir nightscout
-fi
-sudo chmod 775 /nightscout
-cd /nightscout
 
-# Clone the repos locally
-echo -e "\x1b[37;44mForking scripts and Nightscout.                                                                   \x1b[0m"
-if [ ! -d NSDockVPS ] # copy the scripts or update them
-  then
-  sudo git clone https://github.com/psonnera/NSDockVPS.git
-  else
-  cd NSDockVPS
-  sudo git reset --hard
-  sudo git pull
-  cd ..
-fi
-sudo chmod 775 /nightscout/NSDockVPS/*.sh
-cd NSDockVPS
+cd /nightscout/NSDockVPS
 sudo chown root:root startup.sh
 sudo mv -f startup.sh /etc/profile.d
 cd ..

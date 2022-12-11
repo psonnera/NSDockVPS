@@ -59,6 +59,28 @@ read dummy </dev/tty
 echo -e "\x1b[37;44mLet me prepare things for you...                                                                  \x1b[0m"
 echo
 
+sudo apt-get update
+
+if [ ! -d nightscout ] # This will be our working directory
+  then
+  sudo mkdir nightscout
+fi
+sudo chmod 775 /nightscout
+cd /nightscout
+
+# Clone the repos locally
+echo -e "\x1b[37;44mForking scripts and Nightscout.                                                                   \x1b[0m"
+if [ ! -d NSDockVPS ] # copy the scripts or update them
+  then
+  sudo git clone https://github.com/psonnera/NSDockVPS.git
+  else
+  cd NSDockVPS
+  sudo git reset --hard
+  sudo git pull
+  cd ..
+fi
+sudo chmod 775 /nightscout/NSDockVPS/*.sh
+
 sudo apt-get -y install screen
 sudo cat > /etc/profile.d/resume.sh << "EOF"
 #!/bin/sh
