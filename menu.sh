@@ -25,9 +25,9 @@ fi
 prompt=0
 while [ $prompt = 0 ]
 do
-  HEIGHT=15
+  HEIGHT=16
   WIDTH=40
-  CHOICE_HEIGHT=3
+  CHOICE_HEIGHT=10
   BACKTITLE="Nightscout Docker VPS Management"
   TITLE="Nightscout Management"
   MENU="Use up/down arrows to select:"
