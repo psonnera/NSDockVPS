@@ -11,10 +11,6 @@
 
 echo -e "\x1b[37;44mNightscout Docker VPS Initial configuration                                                       \x1b[0m"
 
-screen -R				# recover old session if existing
-screen -XS menu quit	# delete old sessions
-screen -S menu			# save this session
-
 alias menu='sudo /nightscout/NSDockVPS/menu.sh'
 
 # check this is the first run or not
@@ -63,6 +59,11 @@ do
 		sudo git reset --hard
         sudo git pull
         sudo cp ../config_dns.txt .
+		sudo chmod 775 *.sh
+	    dialog --colors --msgbox " You need to restart the menu to validate changes.\n Enter \Zrmenu\Zn at the prompt to complete update." 6 60
+		clear
+	    prompt=1
+        exit
         ;;
       3)
 		sudo cp /nightscout/cgm-remote-monitor ../docker-compose.yml
