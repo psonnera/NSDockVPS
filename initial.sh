@@ -28,7 +28,6 @@ fi
 
 # TIMEZONE configuration
 
-
 if [  "`grep "YOUR_TIMEZONE" ../docker-compose.yml`" != "" ] # Let's update the time zone
   then
   tzone=`./timezone.sh`
