@@ -61,9 +61,9 @@ echo
 
 sudo apt-get update
 
-if [ ! -d nightscout ] # This will be our working directory
+if [ ! -d /nightscout ] # This will be our working directory
   then
-  sudo mkdir nightscout
+  sudo mkdir /nightscout
 fi
 sudo chmod 775 /nightscout
 cd /nightscout
@@ -87,5 +87,5 @@ sudo cat > /etc/profile.d/resume.sh << "EOF"
 sudo screen -r boot
 EOF
 sudo chmod +x /etc/profile.d/resume.sh
-sudo screen -S boot	-X ./boot2.sh	# some scripts are long, we are at risk of terminal timeout, screen should allow to recover...
+sudo screen -S boot	-X exec ./boot2.sh	# some scripts are long, we are at risk of terminal timeout, screen should allow to recover...
 
