@@ -14,8 +14,8 @@ echo -e "\x1b[37;44mCreate a new user                                           
 username=${SUDO_USER:-$USER}
 if [ $username = "root" ]
   then
-  echo -e "\x1b[37;44mYou are logged as root. It is not a good idea to run Nightscout as root.                          \x1b[0m"
-  echo "If you already created a user and logged in as root by mistake, close this terminal and log with your user.\n Else let's create a new user now."
+  echo -e "\x1b[37;44mYou are logged as root. It is not a good idea to run Nightscout as root.                          \x1b[0m\n"
+  echo -e "If you already created a user and logged in as root by mistake:\n - close this terminal and log with your user.\n\nElse let's create a new user now."
   read -p "Enter a user name (lowercase letters and numbers, no space, no special characters: " username </dev/tty
 
   while [ $username = "root" ] || [ $username = "" ]

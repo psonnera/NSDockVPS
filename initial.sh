@@ -7,7 +7,7 @@
 #
 ######################################################################################################
 
-echo -e "\x1b[37;44mInitial configuration for Docker  compose deploy.                                                 \x1b[0m"
+echo -e "\x1b[37;44mInitial configuration for Docker compose deploy.                                                  \x1b[0m"
 
 # might need rework as it's absolutely not foolproof
 
@@ -62,5 +62,7 @@ sudo cp ../docker-compose.yml /nightscout/cgm-remote-monitor
 cd /nightscout/cgm-remote-monitor
 nohup sudo docker compose up &>/dev/null &	# run it in background
 cd /nightscout/NSDockVPS
+
+dialog --msgbox "Wait 5 minutes for Nightscout to start." 6 40
 
 

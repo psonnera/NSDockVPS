@@ -23,6 +23,7 @@ then
 fi
 
 username=${SUDO_USER:-$USER}
+sudo chown -R $username:$username /nightscout
 sudo chown -R $username:$username /nightscout/cgm-remote-monitor
 sudo chown -R $username:$username /nightscout/NSDockVPS
 

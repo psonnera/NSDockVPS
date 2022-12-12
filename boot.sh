@@ -154,10 +154,13 @@ if [ ! -d cgm-remote-monitor ]
   cd ..
 fi
 
+sudo printf "%s\n" "alias menu='sudo /nightscout/NSDockVPS/menu.sh'" >> ~/.bashrc
+sudo source ~/.bashrc
+
 cd /nightscout/NSDockVPS
 sudo chown root:root startup.sh
-sudo mv -f startup.sh /etc/profile.d	# Let's make startup autostart
+sudo cp -f startup.sh /etc/profile.d	# Let's make startup autostart
 
 sleep 1
-sudo ./startup.sh
+sudo /etc/profile.d/startup.sh
 
