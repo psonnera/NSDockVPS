@@ -52,7 +52,7 @@ sudo groupadd docker
 sudo usermod -aG docker $username
 sudo systemctl enable docker
 
-sudo chown -R $username:$username /nightscout/cgm-remote-monitor
+sudo chown -R $username:$username /nightscout/docker-compose.yml
 sudo chown -R $username:$username /nightscout/NSDockVPS
 sudo rm /nightscout/NSDockVPS/config_dns.txt
 

@@ -137,22 +137,10 @@ if [ ! -d NSDockVPS ] # copy the scripts or update them
 fi
 sudo chmod 775 /nightscout/NSDockVPS/*.sh
 
-#if [ ! -d cgm-remote-monitor ]
-#  then
-#  sudo git clone https://github.com/nightscout/cgm-remote-monitor.git
-#  else
-#  echo -e "\x1b[33;44;1mNightscout is already forked here... updating it.                                                 \x1b[0m"
-#  cd cgm-remote-monitor
-#  if [ "`grep "version: '3.4.1'" docker-compose.yml`" != "" ]
-#  then
-#    sudo cp docker-compose.yml .. # Backup the configuration if already present
-#  else
-#    sudo mv ../NSDockVPS/docker-compose.yml .. # or copy the project yml
-#  fi
-#  sudo git reset --hard
-#  sudo git pull
-#  cd ..
-#fi
+if [ ! -f /nightscout/docker-compose.yml ] # DDNS configuration undefined
+  then
+  sudo cp /nightscout/NSDockVPS/docker-compose.yml /nightscout
+fi
 
 sudo printf "%s\n" "alias menu='sudo /nightscout/NSDockVPS/menu.sh'" >> ~/.bashrc
 

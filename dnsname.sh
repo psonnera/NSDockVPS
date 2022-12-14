@@ -12,6 +12,7 @@ echo -e "\x1b[37;44mConfigure DNS name.                                         
 BACKTITLE="Nightscout Docker VPS Initial configuration"
 ipaddress=`hostname -I | head -n1 | cut -d " " -f1`
 
+cd /nightscout/NSDockVPS
 while [ ! -f config_dns.txt ]
 do
 

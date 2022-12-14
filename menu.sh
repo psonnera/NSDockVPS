@@ -9,7 +9,7 @@
 #
 ######################################################################################################
 
-echo -e "\x1b[37;44mNightscout Docker VPS Initial configuration                                                       \x1b[0m"
+echo -e "\x1b[37;44mNightscout Docker VPS configuration                                                       \x1b[0m"
 
 alias menu='sudo /nightscout/NSDockVPS/menu.sh'
 
@@ -24,7 +24,7 @@ fi
 
 username=${SUDO_USER:-$USER}
 sudo chown -R $username:$username /nightscout
-sudo chown -R $username:$username /nightscout/cgm-remote-monitor
+sudo chown -R $username:$username /nightscout/docker-compose.yml
 sudo chown -R $username:$username /nightscout/NSDockVPS
 
 prompt=0
@@ -72,14 +72,11 @@ do
         exit
         ;;
       3)
-		sudo cp /nightscout/cgm-remote-monitor ../docker-compose.yml
 	    read oldname < config_dns.txt
 		sudo rm config_dns.txt
 	    sudo ./dnsname.sh
 		read dnsname < config_dns.txt
-		sudo sed -i "s/$oldname/$dnsname/" ../docker-compose.yml		
-        sudo cp ../docker-compose.yml /nightscout/cgm-remote-monitor
-        cd /nightscout/cgm-remote-monitor
+		sudo sed -i "s/$oldname/$dnsname/" /nightscout/docker-compose.yml		
 		sudo docker compose stop
         nohup sudo docker compose up &>/dev/null &	# run it in background
         cd /nightscout/NSDockVPS
@@ -94,7 +91,7 @@ do
       6)
         ;;
       7)
-        cd /nightscout/cgm-remote-monitor
+        cd /nightscout
 		sudo docker compose stop
         nohup sudo docker compose up &>/dev/null &	# run it in background
         cd /nightscout/NSDockVPS
