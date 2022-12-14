@@ -26,6 +26,7 @@ Use the address $ipaddress \n\
 Once setup type the URL below without https://\n(For example: mybg.mooo.com)" 10 100 \
         3>&1 1>&2 2>&3 3>&- )
   echo $dnsname > config_dns.txt
+  sudo hostnamectl set-hostname $dnsname
 fi
 
 read dnsname < config_dns.txt
