@@ -42,10 +42,11 @@ do
 		 3 "Change DNS name"
 		 4 "Update Nightscout"
 		 5 "Edit Variables"
-		 6 "Import Database"
+		 6 "Import Data"
 		 7 "Restart Nightscout"
          8 "Exit to command prompt"
-		 9 "Reboot Server")
+		 9 "Reboot Server"
+		 0 "Advanced menu")
 
   CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
@@ -57,9 +58,11 @@ do
 		
   clear
   case $CHOICE in
-      1)
+      0) # Advanced
         ;;
-      2)
+      1) # Status
+        ;;
+      2) # Update scripts
 	    cd /nightscout/NSDockVPS
 		sudo cp config_dns.txt ..
 		git reset --hard
@@ -71,7 +74,7 @@ do
 	    prompt=1
         exit
         ;;
-      3)
+      3) # DNS name
 	    read oldname < config_dns.txt
 		sudo rm config_dns.txt
 	    sudo ./dnsname.sh
@@ -82,28 +85,29 @@ do
         cd /nightscout/NSDockVPS
 		dialog --msgbox "Wait 5 minutes for Nightscout to restart." 6 40
         ;;
-      4)
+      4) # Update Nightscout
         ;;
-      5)
+      5) # Edit variables
+	    dialog --colors --msgbox " Do \zCtr-O\z \zEnter\z to save and \zCtrl-X\z to exit." 5 40
+	    sudo nano /nightscout/docker-compose.yml
+		dialog --msgbox " You need to restart Nightscout to validate the changes you made." 5 60
         ;;
-      5)
+      6) # Import Data
         ;;
-      6)
-        ;;
-      7)
+      7) # Restart Nightscout
         cd /nightscout
 		sudo docker compose stop
         nohup sudo docker compose up &>/dev/null &	# run it in background
         cd /nightscout/NSDockVPS
 		dialog --msgbox "Wait 5 minutes for Nightscout to restart." 6 40
         ;;
-      8)
+      8) # Exit to prompt
 	    dialog --colors --msgbox " Enter \Zrmenu\Zn at the prompt to return to this menu." 5 60
 		clear
 	    prompt=1
         exit
         ;;
-      9)
+      9) # Reboot VPS
 	    dialog --msgbox "  - Your server will reboot now -\n Wait 5 minutes for Nightscout to restart." 6 50
 	    sudo reboot
         ;;

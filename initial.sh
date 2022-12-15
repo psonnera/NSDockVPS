@@ -28,9 +28,10 @@ Once setup type the URL below without https://\n(For example: mybg.mooo.com)" 10
         3>&1 1>&2 2>&3 3>&- )
   echo $dnsname > config_dns.txt
   sudo hostnamectl set-hostname $dnsname
+  else
+  read dnsname < config_dns.txt  
 fi
 
-read dnsname < config_dns.txt
 if [  "`grep "$dnsname" /nightscout/docker-compose.yml`" = "" ] # Let's update the URL
   then
   sudo sed -i "s/YOUR_PUBLIC_HOST_URL/$dnsname/" /nightscout/docker-compose.yml 
