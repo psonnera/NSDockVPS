@@ -69,7 +69,7 @@ fi
 # Let's build the pack!
 
 cd /nightscout
-nohup sudo docker compose up &>/dev/null &	# run it in background
+nohup sudo docker compose up -d &>/dev/null &	# run it in background
 cd /nightscout/NSDockVPS
 
 dialog --msgbox "Wait 5 minutes for Nightscout to start." 6 40

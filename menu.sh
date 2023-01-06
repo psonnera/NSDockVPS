@@ -33,7 +33,7 @@ while [ $prompt = 0 ]
 do
   HEIGHT=16
   WIDTH=40
-  CHOICE_HEIGHT=10
+  CHOICE_HEIGHT=12
   BACKTITLE="Nightscout Docker VPS Management"
   TITLE="Nightscout Management"
   MENU="Use up/down arrows to select:"
@@ -59,6 +59,7 @@ do
   clear
   case $CHOICE in
       0) # Advanced
+	    sudo ./status.sh
         ;;
       1) # Status
         ;;
@@ -71,6 +72,7 @@ do
 		sudo chmod 775 *.sh
 	    dialog --colors --msgbox " You need to restart the menu to validate changes.\n Enter \Zrmenu\Zn at the prompt to complete update." 6 60
 		clear
+		alias menu='sudo /nightscout/NSDockVPS/menu.sh'
 	    prompt=1
         exit
         ;;
@@ -81,11 +83,13 @@ do
 		read dnsname < config_dns.txt
 		sudo sed -i "s/$oldname/$dnsname/" /nightscout/docker-compose.yml		
 		sudo docker compose stop
-        nohup sudo docker compose up &>/dev/null &	# run it in background
+        nohup sudo docker compose up -d &>/dev/null &	# run it in background
         cd /nightscout/NSDockVPS
 		dialog --msgbox "Wait 5 minutes for Nightscout to restart." 6 40
         ;;
       4) # Update Nightscout
+	    sudo docker compose pull
+		nohup sudo docker compose up -d &>/dev/null &
         ;;
       5) # Edit variables
 	    dialog --colors --msgbox " Do \zCtr-O\z \zEnter\z to save and \zCtrl-X\z to exit." 5 40
@@ -97,13 +101,14 @@ do
       7) # Restart Nightscout
         cd /nightscout
 		sudo docker compose stop
-        nohup sudo docker compose up &>/dev/null &	# run it in background
+        nohup sudo docker compose up -d &>/dev/null &	# run it in background
         cd /nightscout/NSDockVPS
 		dialog --msgbox "Wait 5 minutes for Nightscout to restart." 6 40
         ;;
       8) # Exit to prompt
 	    dialog --colors --msgbox " Enter \Zrmenu\Zn at the prompt to return to this menu." 5 60
 		clear
+		alias menu='sudo /nightscout/NSDockVPS/menu.sh'
 	    prompt=1
         exit
         ;;
