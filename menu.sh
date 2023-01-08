@@ -59,9 +59,9 @@ do
   clear
   case $CHOICE in
       0) # Advanced
-	    sudo ./status.sh
         ;;
       1) # Status
+	    sudo ./status.sh
         ;;
       2) # Update scripts
 	    cd /nightscout/NSDockVPS
