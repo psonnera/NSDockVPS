@@ -11,7 +11,7 @@
 
 echo -e "\x1b[37;44mNightscout Docker VPS configuration                                                       \x1b[0m"
 
-alias menu='sudo /nightscout/NSDockVPS/menu.sh'
+alias menu="sudo /nightscout/NSDockVPS/menu.sh"
 
 # check this is the first run or not
 
@@ -72,7 +72,7 @@ do
 		sudo chmod 775 *.sh
 	    dialog --colors --msgbox " You need to restart the menu to validate changes.\n Enter \Zrmenu\Zn at the prompt to complete update." 6 60
 		clear
-		alias menu='sudo /nightscout/NSDockVPS/menu.sh'
+		alias menu="sudo /nightscout/NSDockVPS/menu.sh"
 	    prompt=1
         exit
         ;;
@@ -85,7 +85,6 @@ do
 		sudo docker compose stop
         sudo ./initial.sh
         cd /nightscout/NSDockVPS
-		dialog --msgbox "Wait 5 minutes for Nightscout to restart." 6 40
         ;;
       4) # Update Nightscout
 		sudo docker compose stop
@@ -105,17 +104,15 @@ do
 		sudo docker compose stop
         sudo ./initial.sh
         cd /nightscout/NSDockVPS
-		dialog --msgbox "Wait 5 minutes for Nightscout to restart." 6 40
         ;;
       8) # Exit to prompt
 	    dialog --colors --msgbox " Enter \Zrmenu\Zn at the prompt to return to this menu." 5 60
 		clear
-		sudo alias menu='sudo /nightscout/NSDockVPS/menu.sh'
+		alias menu="sudo /nightscout/NSDockVPS/menu.sh"
 	    prompt=1
         exit
         ;;
       9) # Reboot VPS
-	    dialog --msgbox "  - Your server will reboot now -\n Wait 5 minutes for Nightscout to restart." 6 50
 	    sudo reboot
         ;;
   esac
