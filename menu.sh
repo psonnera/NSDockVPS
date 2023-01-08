@@ -83,32 +83,34 @@ do
 		read dnsname < config_dns.txt
 		sudo sed -i "s/$oldname/$dnsname/" /nightscout/docker-compose.yml		
 		sudo docker compose stop
-        nohup sudo docker compose up -d &>/dev/null &	# run it in background
+        sudo ./initial.sh
         cd /nightscout/NSDockVPS
 		dialog --msgbox "Wait 5 minutes for Nightscout to restart." 6 40
         ;;
       4) # Update Nightscout
+		sudo docker compose stop
 	    sudo docker compose pull
-		nohup sudo docker compose up -d &>/dev/null &
+        sudo ./initial.sh
         ;;
       5) # Edit variables
 	    dialog --colors --msgbox " Do \zCtr-O\z \zEnter\z to save and \zCtrl-X\z to exit." 5 40
 	    sudo nano /nightscout/docker-compose.yml
-		dialog --msgbox " You need to restart Nightscout to validate the changes you made." 5 60
+		sudo docker compose stop
+		sudo ./initial.sh
         ;;
       6) # Import Data
         ;;
       7) # Restart Nightscout
         cd /nightscout
 		sudo docker compose stop
-        nohup sudo docker compose up -d &>/dev/null &	# run it in background
+        sudo ./initial.sh
         cd /nightscout/NSDockVPS
 		dialog --msgbox "Wait 5 minutes for Nightscout to restart." 6 40
         ;;
       8) # Exit to prompt
 	    dialog --colors --msgbox " Enter \Zrmenu\Zn at the prompt to return to this menu." 5 60
 		clear
-		alias menu='sudo /nightscout/NSDockVPS/menu.sh'
+		sudo alias menu='sudo /nightscout/NSDockVPS/menu.sh'
 	    prompt=1
         exit
         ;;

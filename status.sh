@@ -7,6 +7,7 @@
 #
 ######################################################################################################
 
+clear
 echo -e "\x1b[37;44mSystem status.                                                                                    \x1b[0m"
 echo -e "\n\x1b[37;40;1mDocker containers status\x1b[0m\n"
 if [ "`docker ps | grep mongo | grep Up`" = "" ]
