@@ -70,7 +70,6 @@ do
         git pull
         sudo cp ../config_dns.txt .
 		sudo chmod 775 *.sh
-	    dialog --colors --msgbox " You need to restart the menu to validate changes.\n Enter \Zrmenu\Zn at the prompt to complete update." 6 60
 		clear
 		alias menu="sudo /nightscout/NSDockVPS/menu.sh"
 	    prompt=1
@@ -82,26 +81,22 @@ do
 	    sudo ./dnsname.sh
 		read dnsname < config_dns.txt
 		sudo sed -i "s/$oldname/$dnsname/" /nightscout/docker-compose.yml		
-		sudo docker compose stop
-        sudo ./initial.sh
+       sudo ./initial.sh
         cd /nightscout/NSDockVPS
         ;;
       4) # Update Nightscout
-		sudo docker compose stop
 	    sudo docker compose pull
         sudo ./initial.sh
         ;;
       5) # Edit variables
 	    dialog --colors --msgbox " Do \zCtr-O\z \zEnter\z to save and \zCtrl-X\z to exit." 5 40
 	    sudo nano /nightscout/docker-compose.yml
-		sudo docker compose stop
 		sudo ./initial.sh
         ;;
       6) # Import Data
         ;;
       7) # Restart Nightscout
         cd /nightscout
-		sudo docker compose stop
         sudo ./initial.sh
         cd /nightscout/NSDockVPS
         ;;

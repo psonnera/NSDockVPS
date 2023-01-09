@@ -36,6 +36,16 @@ if [  "`grep "$dnsname" /nightscout/docker-compose.yml`" = "" ] # Let's update t
   sudo sed -i "s/YOUR_PUBLIC_HOST_URL/$dnsname/" /nightscout/docker-compose.yml 
 fi
 
+# DB_SIZE from disk size minus 1GB
+
+if [  "`grep "DISK_SIZE" /nightscout/docker-compose.yml`" != "" ] # Let's update the time zone
+  then
+  dskspace="$(df / | sed -n 2p | awk '{print $4}')"
+  let dbspace=dskspace/1024-1024
+  sudo sed -i "s%DISK_SIZE%$dbspace%" /nightscout/docker-compose.yml 
+fi
+
+
 # TIMEZONE configuration
 
 if [  "`grep "YOUR_TIMEZONE" /nightscout/docker-compose.yml`" != "" ] # Let's update the time zone
@@ -69,7 +79,7 @@ fi
 # Let's build the pack!
 
 cd /nightscout
-nohup sudo docker compose up -d		# run it in background
+nohup sudo docker compose up -d	&	# run it in background
 cd /nightscout/NSDockVPS
 
 dialog --msgbox "Wait 5 minutes for Nightscout to start." 6 40

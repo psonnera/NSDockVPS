@@ -26,6 +26,7 @@ services:
       SCALE_Y: linear
       AR2_CONE_FACTOR: 0
       SHOW_RAWBG: never
+      DBSIZE_MAX: DISK_SIZE
 # Visulizations
       BG_LOW: 60
       BG_TARGET_BOTTOM: 70
