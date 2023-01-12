@@ -139,7 +139,7 @@ sudo chmod 775 /nightscout/NSDockVPS/*.sh
 
 if [ ! -f /nightscout/docker-compose.yml ] # DDNS configuration undefined
   then
-  sudo cp /nightscout/NSDockVPS/docker-compose.yml /nightscout
+  sudo cp /nightscout/NSDockVPS/docker-compose.ymt /nightscout/docker-compose.yml
 fi
 
 sudo printf "%s\n" "alias menu='sudo /nightscout/NSDockVPS/menu.sh'" >> ~/.bashrc
