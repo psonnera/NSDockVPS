@@ -100,7 +100,6 @@ do
         cd /nightscout/NSDockVPS
         ;;
       8) # Exit to prompt
-	    dialog --colors --msgbox " Enter menu at the prompt to return to this menu." 5 60
 		clear
 		alias menu='sudo /nightscout/NSDockVPS/menu.sh'
 	    prompt=1
