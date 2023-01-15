@@ -11,7 +11,13 @@
 
 echo -e "\x1b[37;44mNightscout Docker VPS configuration                                                       \x1b[0m"
 
-alias menu='sudo /nightscout/NSDockVPS/menu.sh'
+if [ "$(grep NSDockVPS ~/.bash_aliases)" = "" ]
+  then
+  cat >> ~/.bash_aliases << EOF
+alias menu="/nightscout/NSDockVPS/menu.sh"
+EOF
+fi
+
 
 # check this is the first run or not
 
@@ -71,7 +77,6 @@ do
         sudo cp ../config_dns.txt .
 		sudo chmod 775 *.sh
 		clear
-		alias menu='sudo /nightscout/NSDockVPS/menu.sh'
 	    prompt=1
         exit
         ;;
@@ -101,7 +106,6 @@ do
         ;;
       8) # Exit to prompt
 		clear
-		alias menu='sudo /nightscout/NSDockVPS/menu.sh'
 	    prompt=1
         exit
         ;;

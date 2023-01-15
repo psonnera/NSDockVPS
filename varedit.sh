@@ -44,9 +44,10 @@ do
         apisecret="`grep "API_SECRET" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
         newapisecret=$(dialog --clear --backtitle "$BACKTITLE" \
        --nocancel --ok-label "Save API_SECRET" --title "Setup your API_SECRET" \
-       --inputbox "This is the password to enter your Nightscout site and settings.\nIt must be at least 12 characters long.\nUse only letters and numbers, no spaces." 10 50 $apisecret\
+       --inputbox "This is the password to enter your Nightscout site and settings.\n\
+It must be at least 12 characters long.\nUse only letters and numbers, no spaces." 10 50 $apisecret\
         3>&1 1>&2 2>&3 3>&- )
-        if [ ${#newapisecret} > 11]
+        if [ ${#newapisecret} > 11 ]
 		  then
 		  sudo sed -i "s/$apisecret/$newapisecret/" /nightscout/docker-compose.yml
 		  else
@@ -58,9 +59,11 @@ do
       3) # SHOW_PLUGINS
         ;;
       4) # AUTH_DEFAULT_ROLES
-        status=$(dialog --clear --backtitle "$BACKTITLE" --title "Setup AUTH_DEFAULT_ROLES" \
-        --yesno "You can remove unauthorized access to your Nightscout page with denied.\nSetting it to readable makes your page visible to anybody." 10 50\
-	    --no-label "denied" --yes-label "readable")
+        dialog --clear --backtitle "$BACKTITLE" --title "Setup Authentication" \
+        --no-label "denied" --yes-label "readable" --yesno "\
+You can remove unauthorized access to your Nightscout page with denied.\n\
+Setting it to readable makes your page visible to anybody." 10 50
+        status=$?
 		if [ status = TRUE ]
 		  then
 		  sudo sed -i "s/AUTH_DEFAULT_ROLES: denied/AUTH_DEFAULT_ROLES: readable/" /nightscout/docker-compose.yml
@@ -73,6 +76,20 @@ do
 		fi
         ;;
       5) # DISPLAY_UNITS
+        dialog --clear --backtitle "$BACKTITLE" --title "Setup Display units" \
+        --no-label "mg/dl" --yes-label "mmol/l" --yesno "\
+Choose the measurement unit for your site" 10 50
+        status=$?
+		if [ status = TRUE ]
+		  then
+		  sudo sed -i "s+DISPLAY_UNITS: mg/dl+DISPLAY_UNITS: mmol/l+" /nightscout/docker-compose.yml
+		  sudo sed -i "s+DISPLAY_UNITS:mg/dl+DISPLAY_UNITS: mmol/l+" /nightscout/docker-compose.yml
+		fi
+		if [ status = FALSE ]
+		  then
+		  sudo sed -i "s+DISPLAY_UNITS: mmol/l+DISPLAY_UNITS: mg/dl+" /nightscout/docker-compose.yml
+		  sudo sed -i "s+DISPLAY_UNITS:mmol/l+DISPLAY_UNITS: mg/dl+" /nightscout/docker-compose.yml
+		fi
         ;;
       6) # BRIDGE
         ;;
