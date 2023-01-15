@@ -78,10 +78,12 @@ fi
 
 # Let's build the pack!
 
+echo -e "\x1b[37;44mRestarting/rebuilding Nightscout... Please wait                                                   \x1b[0m"
+
 cd /nightscout
 nohup sudo docker compose up -d	&	# run it in background
 cd /nightscout/NSDockVPS
 
-dialog --msgbox "Wait 5 minutes for Nightscout to start." 6 40
+
 
 

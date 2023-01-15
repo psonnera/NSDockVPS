@@ -11,7 +11,7 @@
 
 echo -e "\x1b[37;44mNightscout Docker VPS configuration                                                       \x1b[0m"
 
-alias menu="sudo /nightscout/NSDockVPS/menu.sh"
+alias menu='sudo /nightscout/NSDockVPS/menu.sh'
 
 # check this is the first run or not
 
@@ -71,7 +71,7 @@ do
         sudo cp ../config_dns.txt .
 		sudo chmod 775 *.sh
 		clear
-		alias menu="sudo /nightscout/NSDockVPS/menu.sh"
+		alias menu='sudo /nightscout/NSDockVPS/menu.sh'
 	    prompt=1
         exit
         ;;
@@ -80,8 +80,8 @@ do
 		sudo rm config_dns.txt
 	    sudo ./dnsname.sh
 		read dnsname < config_dns.txt
-		sudo sed -i "s/$oldname/$dnsname/" /nightscout/docker-compose.yml		
-       sudo ./initial.sh
+		sudo sed -i "s/$oldname/$dnsname/" /nightscout/docker-compose.yml
+        sudo ./initial.sh
         cd /nightscout/NSDockVPS
         ;;
       4) # Update Nightscout
@@ -89,8 +89,7 @@ do
         sudo ./initial.sh
         ;;
       5) # Edit variables
-	    dialog --colors --msgbox " Do \zCtr-O\z \zEnter\z to save and \zCtrl-X\z to exit." 5 40
-	    sudo nano /nightscout/docker-compose.yml
+	    sudo ./varedit.sh
 		sudo ./initial.sh
         ;;
       6) # Import Data
@@ -101,9 +100,9 @@ do
         cd /nightscout/NSDockVPS
         ;;
       8) # Exit to prompt
-	    dialog --colors --msgbox " Enter \Zrmenu\Zn at the prompt to return to this menu." 5 60
+	    dialog --colors --msgbox " Enter menu at the prompt to return to this menu." 5 60
 		clear
-		alias menu="sudo /nightscout/NSDockVPS/menu.sh"
+		alias menu='sudo /nightscout/NSDockVPS/menu.sh'
 	    prompt=1
         exit
         ;;
