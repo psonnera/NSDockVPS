@@ -73,12 +73,10 @@ Setting it to readable makes your page visible to anybody." 10 50
 		if [ $status = 0 ]
 		  then
 		  sudo sed -i "s/AUTH_DEFAULT_ROLES: denied/AUTH_DEFAULT_ROLES: readable/" /nightscout/docker-compose.yml
-		  sudo sed -i "s/AUTH_DEFAULT_ROLES:denied/AUTH_DEFAULT_ROLES: readable/" /nightscout/docker-compose.yml
 		fi
 		if [ $status = 1 ]
 		  then
 		  sudo sed -i "s/AUTH_DEFAULT_ROLES: readable/AUTH_DEFAULT_ROLES: denied/" /nightscout/docker-compose.yml
-		  sudo sed -i "s/AUTH_DEFAULT_ROLES:readable/AUTH_DEFAULT_ROLES: denied/" /nightscout/docker-compose.yml
 		fi
 		sudo ./initial.sh	# Deploy the changes
         ;;
@@ -90,19 +88,17 @@ Choose the measurement unit for your site" 10 50
 		if [ $status = 0 ]
 		  then
 		  sudo sed -i "s+DISPLAY_UNITS: mg/dl+DISPLAY_UNITS: mmol/l+" /nightscout/docker-compose.yml
-		  sudo sed -i "s+DISPLAY_UNITS:mg/dl+DISPLAY_UNITS: mmol/l+" /nightscout/docker-compose.yml
 		fi
 		if [ $status = 1 ]
 		  then
 		  sudo sed -i "s+DISPLAY_UNITS: mmol/l+DISPLAY_UNITS: mg/dl+" /nightscout/docker-compose.yml
-		  sudo sed -i "s+DISPLAY_UNITS:mmol/l+DISPLAY_UNITS: mg/dl+" /nightscout/docker-compose.yml
 		fi
 		sudo ./initial.sh	# Deploy the changes
         ;;
       6) # BRIDGE
-        oldbridgeuser="`grep "BRIDGE_USER_NAME" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
-        oldbridgepwd="`grep "BRIDGE_PASSWORD" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
-        oldbridgesrv="`grep "BRIDGE_SERVER" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
+        oldbridgeuser="`grep "BRIDGE_USER_NAME:" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
+        oldbridgepwd="`grep "BRIDGE_PASSWORD:" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
+        oldbridgesrv="`grep "BRIDGE_SERVER:" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
         dexdialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Setup Dexcom bridge" \
 --form " Enter your Dexcom credentials below (those you use on the phone connected to the sensor).\n\
 Remember you need an active Dexcom follower.\nServer must be US or EU." 12 50 0 \
@@ -115,14 +111,14 @@ Remember you need an active Dexcom follower.\nServer must be US or EU." 12 50 0 
 		  bridgeuser=${dexshare[0]}
 		  bridgepwd=${dexshare[1]}
 		  bridgesrv=${dexshare[2]}
-		  sudo sed -i "s/$oldbridgeuser/$bridgeuser/" /nightscout/docker-compose.yml
-		  sudo sed -i "s/$oldbridgepwd/$bridgepwd/" /nightscout/docker-compose.yml
-		  sudo sed -i "s/$oldbridgesrv/$bridgesrv/" /nightscout/docker-compose.yml
+		  sudo sed -i "s/BRIDGE_USER_NAME: $oldbridgeuser/BRIDGE_USER_NAME: $bridgeuser/" /nightscout/docker-compose.yml
+		  sudo sed -i "s/BRIDGE_PASSWORD: $oldbridgepwd/BRIDGE_PASSWORD: $bridgepwd/" /nightscout/docker-compose.yml
+		  sudo sed -i "s/BRIDGE_SERVER: $oldbridgesrv/BRIDGE_SERVER: $bridgesrv/" /nightscout/docker-compose.yml
 		  sudo sed -i "s/#BRIDGE_USER_NAME/BRIDGE_USER_NAME/" /nightscout/docker-compose.yml
 		  sudo sed -i "s/#BRIDGE_PASSWORD/BRIDGE_PASSWORD/" /nightscout/docker-compose.yml
 		  sudo sed -i "s/#BRIDGE_SERVER/BRIDGE_SERVER/" /nightscout/docker-compose.yml
 		  sudo ./initial.sh	# Deploy the changes
-		  if [ ! "`grep "ENABLE:" /nightscout/docker-compose.yml | grep "bridge" /nightscout/docker-compose.yml`" ]
+		  if [ ! "`grep "ENABLE:" /nightscout/docker-compose.yml | grep "bridge"`" ]
 		  then
 		    dialog --colors --msgbox " Remember to enable bridge (Share to Nightscout bridge)" 5 60
 		  fi
