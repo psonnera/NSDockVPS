@@ -55,8 +55,10 @@ It must be at least 12 characters long.\nUse only letters and numbers, no spaces
 		fi
         ;;
       2) # ENABLE
+	    ./enable.sh
         ;;
       3) # SHOW_PLUGINS
+	    ./show.sh
         ;;
       4) # AUTH_DEFAULT_ROLES
         dialog --clear --backtitle "$BACKTITLE" --title "Setup Authentication" \
@@ -64,12 +66,12 @@ It must be at least 12 characters long.\nUse only letters and numbers, no spaces
 You can remove unauthorized access to your Nightscout page with denied.\n\
 Setting it to readable makes your page visible to anybody." 10 50
         status=$?
-		if [ status = TRUE ]
+		if [ $status = 0 ]
 		  then
 		  sudo sed -i "s/AUTH_DEFAULT_ROLES: denied/AUTH_DEFAULT_ROLES: readable/" /nightscout/docker-compose.yml
 		  sudo sed -i "s/AUTH_DEFAULT_ROLES:denied/AUTH_DEFAULT_ROLES: readable/" /nightscout/docker-compose.yml
 		fi
-		if [ status = FALSE ]
+		if [ $status = 1 ]
 		  then
 		  sudo sed -i "s/AUTH_DEFAULT_ROLES: readable/AUTH_DEFAULT_ROLES: denied/" /nightscout/docker-compose.yml
 		  sudo sed -i "s/AUTH_DEFAULT_ROLES:readable/AUTH_DEFAULT_ROLES: denied/" /nightscout/docker-compose.yml
@@ -80,18 +82,38 @@ Setting it to readable makes your page visible to anybody." 10 50
         --no-label "mg/dl" --yes-label "mmol/l" --yesno "\
 Choose the measurement unit for your site" 10 50
         status=$?
-		if [ status = TRUE ]
+		if [ $status = 0 ]
 		  then
 		  sudo sed -i "s+DISPLAY_UNITS: mg/dl+DISPLAY_UNITS: mmol/l+" /nightscout/docker-compose.yml
 		  sudo sed -i "s+DISPLAY_UNITS:mg/dl+DISPLAY_UNITS: mmol/l+" /nightscout/docker-compose.yml
 		fi
-		if [ status = FALSE ]
+		if [ $status = 1 ]
 		  then
 		  sudo sed -i "s+DISPLAY_UNITS: mmol/l+DISPLAY_UNITS: mg/dl+" /nightscout/docker-compose.yml
 		  sudo sed -i "s+DISPLAY_UNITS:mmol/l+DISPLAY_UNITS: mg/dl+" /nightscout/docker-compose.yml
 		fi
         ;;
       6) # BRIDGE
+        oldbridgeuser="`grep "BRIDGE_USER_NAME" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
+        oldbridgepwd="`grep "BRIDGE_PASSWORD" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
+        oldbridgesrv="`grep "BRIDGE_SERVER" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
+        dexdialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Setup Dexcom bridge" \
+--form " Enter your Dexcom credentials below (those you use on the phone connected to the sensor).\n\
+Remember you need an active Dexcom follower.\nServer must be US or EU." 12 50 0 \
+"Username: " 1 1 "$bridgeuser" 1 14 50 0 "Password:" 2 1 "$bridgepwd" 2 14 31 0 \
+"Server:" 3 1 "$bridgesrv" 3 14 3 0 2>&1 >/dev/tty)
+        status=$?
+        if [ status = 0 ]
+		then
+		  dexshare=($dexdialog)
+		  bridgeuser=${dexshare[0]}
+		  bridgepwd=${dexshare[1]}
+		  bridgesrv=${dexshare[2]}
+		  sudo sed -i "s/#BRIDGE_/BRIDGE_/g" /nightscout/docker-compose.yml
+		  sudo sed -i "s/$oldbridgeuser/$bridgeuser/" /nightscout/docker-compose.yml
+		  sudo sed -i "s/$oldbridgepwd/$bridgepwd/" /nightscout/docker-compose.yml
+		  sudo sed -i "s/$oldbridgesrv/$bridgesrv/" /nightscout/docker-compose.yml
+		fi
         ;;
       7) # Alerts and alarms
         ;;
