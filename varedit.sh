@@ -13,9 +13,9 @@ prompt=0
 
 while [ $prompt = 0 ]
 do
-  HEIGHT=17
+  HEIGHT=18
   WIDTH=40
-  CHOICE_HEIGHT=10
+  CHOICE_HEIGHT=11
   BACKTITLE="Nightscout Docker VPS Management"
   TITLE="Nightscout Variables"
   MENU="Use up/down arrows to select:"
@@ -115,12 +115,14 @@ Remember you need an active Dexcom follower.\nServer must be US or EU." 12 50 0 
 		  bridgeuser=${dexshare[0]}
 		  bridgepwd=${dexshare[1]}
 		  bridgesrv=${dexshare[2]}
-		  sudo sed -i "s/#BRIDGE_/BRIDGE_/g" /nightscout/docker-compose.yml
 		  sudo sed -i "s/$oldbridgeuser/$bridgeuser/" /nightscout/docker-compose.yml
 		  sudo sed -i "s/$oldbridgepwd/$bridgepwd/" /nightscout/docker-compose.yml
 		  sudo sed -i "s/$oldbridgesrv/$bridgesrv/" /nightscout/docker-compose.yml
+		  sudo sed -i "s/#BRIDGE_USER_NAME/BRIDGE_USER_NAME/" /nightscout/docker-compose.yml
+		  sudo sed -i "s/#BRIDGE_PASSWORD/BRIDGE_PASSWORD/" /nightscout/docker-compose.yml
+		  sudo sed -i "s/#BRIDGE_SERVER/BRIDGE_SERVER/" /nightscout/docker-compose.yml
 		  sudo ./initial.sh	# Deploy the changes
-		  if [ "`grep "ENABLE:" /nightscout/docker-compose.yml | grep "bridge" /nightscout/docker-compose.yml`" = "" ]
+		  if [ ! "`grep "ENABLE:" /nightscout/docker-compose.yml | grep "bridge" /nightscout/docker-compose.yml`" ]
 		  then
 		    dialog --colors --msgbox " Remember to enable bridge (Share to Nightscout bridge)" 5 60
 		  fi

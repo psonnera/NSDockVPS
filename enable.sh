@@ -90,7 +90,7 @@ if [ $exit_code = "0" ]
   then
   en_sta=('off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off'
           'off' 'off' 'off' 'off' 'off')
-  en_str="      ENABLE: "
+  en_str="      ENABLE:"
   for i in $choices
   do
     en_str="$en_str ${en_var[$i]}"

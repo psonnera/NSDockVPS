@@ -72,7 +72,7 @@ if [ $exit_code = "0" ]
   then
   sh_sta=('off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off'
           'off' 'off' 'off' 'off' 'off')
-  sh_str="      SHOW_PLUGINS: "
+  sh_str="      SHOW_PLUGINS:"
   for i in $choices
   do
     sh_str="$sh_str ${sh_var[$i]}"
