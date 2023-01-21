@@ -39,7 +39,7 @@ oldshow="`grep "SHOW_PLUGINS:" /nightscout/docker-compose.yml`"
 sh_sta=('off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off'
         'off' 'off' 'off' 'off' 'off')
 for i in ${!sh_var[@]}; do
-  if [ "`grep "SHOW_PLUGINS:" /nightscout/docker-compose.yml | grep ${sh_var[$i]} /nightscout/docker-compose.yml`" != "" ]
+  if [ "`grep "SHOW_PLUGINS:" /nightscout/docker-compose.yml | grep ${sh_var[$i]}`" != "" ]
     then
     sh_sta[$i]=on
     else

@@ -51,7 +51,7 @@ oldenable="`grep "ENABLE:" /nightscout/docker-compose.yml`"
 en_sta=('off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off' 'off'
         'off' 'off' 'off' 'off' 'off')
 for i in ${!en_var[@]}; do
-  if [ "`grep "ENABLE:" /nightscout/docker-compose.yml | grep ${en_var[$i]} /nightscout/docker-compose.yml`" != "" ]
+  if [ "`grep "ENABLE:" /nightscout/docker-compose.yml | grep ${en_var[$i]}`" != "" ]
     then
     en_sta[$i]=on
     else

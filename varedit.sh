@@ -24,7 +24,7 @@ do
 		 3 "Show plugins"
 		 4 "Authentication"
 		 5 "Units"
-		 6 "Dexcom bridge"
+		 6 "Share bridge"
 		 7 "Alerts and alarms"
          8 "Device status"
 		 9 "Visualizations"
@@ -38,7 +38,7 @@ do
         $HEIGHT $WIDTH $CHOICE_HEIGHT \
         "${OPTIONS[@]}" \
         2>&1 >/dev/tty)
-		
+
   clear
   case $CHOICE in
       1) # API_SECRET
@@ -99,9 +99,9 @@ Choose the measurement unit for your site" 10 50
         oldbridgeuser="`grep "BRIDGE_USER_NAME:" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
         oldbridgepwd="`grep "BRIDGE_PASSWORD:" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
         oldbridgesrv="`grep "BRIDGE_SERVER:" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
-        dexdialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Setup Dexcom bridge" \
---form " Enter your Dexcom credentials below (those you use on the phone connected to the sensor).\n\
-Remember you need an active Dexcom follower.\nServer must be US or EU." 12 50 0 \
+        dexdialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Setup Share bridge" \
+--form " Enter your Dex credentials below (those you use on the phone connected to the sensor).\n\
+Remember you need an active Dex follower.\nServer must be US or EU." 12 50 0 \
 "Username: " 1 1 "$oldbridgeuser" 1 14 50 0 "Password:" 2 1 "$oldbridgepwd" 2 14 31 0 \
 "Server:" 3 1 "$oldbridgesrv" 3 14 3 0 2>&1 >/dev/tty)
         status=$?
@@ -132,6 +132,7 @@ Remember you need an active Dexcom follower.\nServer must be US or EU." 12 50 0 
         ;;
       A) # Edit file
 	    sudo nano /nightscout/docker-compose.yml
+		sudo ./initial.sh	# Deploy the changes
         ;;
       0) # Back
 	    prompt=1
