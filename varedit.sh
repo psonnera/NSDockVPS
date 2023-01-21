@@ -28,7 +28,7 @@ do
 		 7 "Alerts and alarms"
          8 "Device status"
 		 9 "Visualizations"
-		 A "Advanced - edit configuration"
+		 A "Advanced Edit Config"
 		 0 "Return to main menu")
 
   CHOICE=$(dialog --clear \
@@ -102,10 +102,10 @@ Choose the measurement unit for your site" 10 50
         dexdialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Setup Dexcom bridge" \
 --form " Enter your Dexcom credentials below (those you use on the phone connected to the sensor).\n\
 Remember you need an active Dexcom follower.\nServer must be US or EU." 12 50 0 \
-"Username: " 1 1 "$bridgeuser" 1 14 50 0 "Password:" 2 1 "$bridgepwd" 2 14 31 0 \
-"Server:" 3 1 "$bridgesrv" 3 14 3 0 2>&1 >/dev/tty)
+"Username: " 1 1 "$oldbridgeuser" 1 14 50 0 "Password:" 2 1 "$oldbridgepwd" 2 14 31 0 \
+"Server:" 3 1 "$oldbridgesrv" 3 14 3 0 2>&1 >/dev/tty)
         status=$?
-        if [ status = 0 ]
+        if [ $status = 0 ]
 		then
 		  dexshare=($dexdialog)
 		  bridgeuser=${dexshare[0]}
