@@ -58,12 +58,6 @@ options=(
   7 "${sh_des[7]}" ${sh_sta[7]}
   8 "${sh_des[8]}" ${sh_sta[8]}
   9 "${sh_des[9]}" ${sh_sta[9]}
-  A "${sh_des[10]}" ${sh_sta[10]}
-  B "${sh_des[11]}" ${sh_sta[11]}
-  C "${sh_des[12]}" ${sh_sta[12]}
-  D "${sh_des[13]}" ${sh_sta[13]}
-  E "${sh_des[14]}" ${sh_sta[14]}
-  F "${sh_des[15]}" ${sh_sta[15]}
 )
 
 cmd=(dialog --output-fd 1 --separate-output --ok-label 'Save'\
@@ -87,5 +81,4 @@ if [ $exit_code = "0" ]
 fi
 
 sudo sed -i "s/$oldshow/$sh_str/" /nightscout/docker-compose.yml
-sudo ./initial.sh
-sudo ./menu.sh
+sudo ./varedit.sh

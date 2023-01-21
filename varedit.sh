@@ -28,6 +28,7 @@ do
 		 7 "Alerts and alarms"
          8 "Device status"
 		 9 "Visualizations"
+		 A "Advanced - edit configuration"
 		 0 "Return to main menu")
 
   CHOICE=$(dialog --clear \
@@ -50,15 +51,18 @@ It must be at least 12 characters long.\nUse only letters and numbers, no spaces
         if [ ${#newapisecret} > 11 ]
 		  then
 		  sudo sed -i "s/$apisecret/$newapisecret/" /nightscout/docker-compose.yml
+		  sudo ./initial.sh	# Deploy the changes
 		  else
 		  dialog --colors --msgbox " Cancelled or invalid. API_SECRET unchanged." 5 50
 		fi
         ;;
       2) # ENABLE
 	    ./enable.sh
+		sudo ./initial.sh	# Deploy the changes
         ;;
       3) # SHOW_PLUGINS
 	    ./show.sh
+		sudo ./initial.sh	# Deploy the changes
         ;;
       4) # AUTH_DEFAULT_ROLES
         dialog --clear --backtitle "$BACKTITLE" --title "Setup Authentication" \
@@ -76,6 +80,7 @@ Setting it to readable makes your page visible to anybody." 10 50
 		  sudo sed -i "s/AUTH_DEFAULT_ROLES: readable/AUTH_DEFAULT_ROLES: denied/" /nightscout/docker-compose.yml
 		  sudo sed -i "s/AUTH_DEFAULT_ROLES:readable/AUTH_DEFAULT_ROLES: denied/" /nightscout/docker-compose.yml
 		fi
+		sudo ./initial.sh	# Deploy the changes
         ;;
       5) # DISPLAY_UNITS
         dialog --clear --backtitle "$BACKTITLE" --title "Setup Display units" \
@@ -92,6 +97,7 @@ Choose the measurement unit for your site" 10 50
 		  sudo sed -i "s+DISPLAY_UNITS: mmol/l+DISPLAY_UNITS: mg/dl+" /nightscout/docker-compose.yml
 		  sudo sed -i "s+DISPLAY_UNITS:mmol/l+DISPLAY_UNITS: mg/dl+" /nightscout/docker-compose.yml
 		fi
+		sudo ./initial.sh	# Deploy the changes
         ;;
       6) # BRIDGE
         oldbridgeuser="`grep "BRIDGE_USER_NAME" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
@@ -113,6 +119,11 @@ Remember you need an active Dexcom follower.\nServer must be US or EU." 12 50 0 
 		  sudo sed -i "s/$oldbridgeuser/$bridgeuser/" /nightscout/docker-compose.yml
 		  sudo sed -i "s/$oldbridgepwd/$bridgepwd/" /nightscout/docker-compose.yml
 		  sudo sed -i "s/$oldbridgesrv/$bridgesrv/" /nightscout/docker-compose.yml
+		  sudo ./initial.sh	# Deploy the changes
+		  if [ "`grep "ENABLE:" /nightscout/docker-compose.yml | grep "bridge" /nightscout/docker-compose.yml`" = "" ]
+		  then
+		    dialog --colors --msgbox " Remember to enable bridge (Share to Nightscout bridge)" 5 60
+		  fi
 		fi
         ;;
       7) # Alerts and alarms
@@ -121,11 +132,13 @@ Remember you need an active Dexcom follower.\nServer must be US or EU." 12 50 0 
         ;;
       9) # Visualizations
         ;;
+      A) # Edit file
+	    sudo nano /nightscout/docker-compose.yml
+        ;;
       0) # Back
 	    exit
         ;;
   esac
 done
 
-sudo ./initial.sh	# Deploy the changes
 sudo ./menu.sh		# Return to menu
