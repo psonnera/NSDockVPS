@@ -1,7 +1,7 @@
 #!/bin/bash
 ######################################################################################################
 #
-#  Variables
+#  Enable variables
 #
 #  Patrick Sonnerat - https://github.com/psonnera
 #
