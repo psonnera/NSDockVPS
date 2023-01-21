@@ -138,6 +138,7 @@ Remember you need an active Dexcom follower.\nServer must be US or EU." 12 50 0 
 	    sudo nano /nightscout/docker-compose.yml
         ;;
       0) # Back
+	    prompt=1
 	    exit
         ;;
   esac
