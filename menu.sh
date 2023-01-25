@@ -14,7 +14,7 @@ echo -e "\x1b[37;44mNightscout Docker VPS configuration                         
 if [ "$(grep NSDockVPS ~/.bash_aliases)" = "" ]
   then
   cat >> ~/.bash_aliases << EOF
-alias menu="/nightscout/NSDockVPS/menu.sh"
+alias menu='/nightscout/NSDockVPS/menu.sh'
 EOF
 fi
 
@@ -86,26 +86,27 @@ do
 	    sudo ./dnsname.sh
 		read dnsname < config_dns.txt
 		sudo sed -i "s/$oldname/$dnsname/" /nightscout/docker-compose.yml
-        sudo ./initial.sh
+        sudo ./restart.sh
         cd /nightscout/NSDockVPS
         ;;
       4) # Update Nightscout
 	    sudo docker compose pull
-        sudo ./initial.sh
+        sudo ./restart.sh
         ;;
       5) # Edit variables
 	    sudo ./varedit.sh
-		sudo ./initial.sh
+		sudo ./restart.sh
         ;;
       6) # Import Data
         ;;
       7) # Restart Nightscout
         cd /nightscout
-        sudo ./initial.sh
+        sudo ./restart.sh
         cd /nightscout/NSDockVPS
         ;;
       8) # Exit to prompt
 		clear
+        echo -e "\x1b[37;44mEnter menu of ./menu.sh to return to the menu                                                     \x1b[0m"
 	    prompt=1
         exit
         ;;
