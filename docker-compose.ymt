@@ -1,4 +1,13 @@
-version: '3.4.3'
+######################################################################################################
+#
+#  docker-compose.yml Versione 1.2
+#
+#  Patrick Sonnerat - https://github.com/psonnera
+#
+######################################################################################################
+
+ 
+version: '3.4.1'
 services:
   nightscout:
     image: nightscout/cgm-remote-monitor:latest
