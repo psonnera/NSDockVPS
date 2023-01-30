@@ -51,18 +51,18 @@ It must be at least 12 characters long.\nUse only letters and numbers, no spaces
         if [ ${#newapisecret} > 11 ]
 		  then
 		  sudo sed -i "s/$apisecret/$newapisecret/" /nightscout/docker-compose.yml
-		  sudo ./initial.sh	# Deploy the changes
+		  sudo ./restart.sh	# Deploy the changes
 		  else
 		  dialog --colors --msgbox " Cancelled or invalid. API_SECRET unchanged." 5 50
 		fi
         ;;
       2) # ENABLE
 	    ./enable.sh
-		sudo ./initial.sh	# Deploy the changes
+		sudo ./restart.sh	# Deploy the changes
         ;;
       3) # SHOW_PLUGINS
 	    ./show.sh
-		sudo ./initial.sh	# Deploy the changes
+		sudo ./restart.sh	# Deploy the changes
         ;;
       4) # AUTH_DEFAULT_ROLES
         dialog --clear --backtitle "$BACKTITLE" --title "Setup Authentication" \
@@ -78,22 +78,22 @@ Setting it to readable makes your page visible to anybody." 10 50
 		  then
 		  sudo sed -i "s/AUTH_DEFAULT_ROLES: readable/AUTH_DEFAULT_ROLES: denied/" /nightscout/docker-compose.yml
 		fi
-		sudo ./initial.sh	# Deploy the changes
+		sudo ./restart.sh	# Deploy the changes
         ;;
       5) # DISPLAY_UNITS
         dialog --clear --backtitle "$BACKTITLE" --title "Setup Display units" \
-        --no-label "mg/dl" --yes-label "mmol/l" --yesno "\
+        --yes-label "mg/dl" --no-label "mmol/l" --yesno "\
 Choose the measurement unit for your site" 10 50
         status=$?
-		if [ $status = 0 ]
+		if [ $status = 1 ]
 		  then
 		  sudo sed -i "s+DISPLAY_UNITS: mg/dl+DISPLAY_UNITS: mmol/l+" /nightscout/docker-compose.yml
 		fi
-		if [ $status = 1 ]
+		if [ $status = 0 ]
 		  then
 		  sudo sed -i "s+DISPLAY_UNITS: mmol/l+DISPLAY_UNITS: mg/dl+" /nightscout/docker-compose.yml
 		fi
-		sudo ./initial.sh	# Deploy the changes
+		sudo ./restart.sh	# Deploy the changes
         ;;
       6) # BRIDGE
         oldbridgeuser="`grep "BRIDGE_USER_NAME:" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
@@ -117,7 +117,7 @@ Remember you need an active Dex follower.\nServer must be US or EU." 12 50 0 \
 		  sudo sed -i "s/#BRIDGE_USER_NAME/BRIDGE_USER_NAME/" /nightscout/docker-compose.yml
 		  sudo sed -i "s/#BRIDGE_PASSWORD/BRIDGE_PASSWORD/" /nightscout/docker-compose.yml
 		  sudo sed -i "s/#BRIDGE_SERVER/BRIDGE_SERVER/" /nightscout/docker-compose.yml
-		  sudo ./initial.sh	# Deploy the changes
+		  sudo ./restart.sh	# Deploy the changes
 		  if [ ! "`grep "ENABLE:" /nightscout/docker-compose.yml | grep "bridge"`" ]
 		  then
 		    dialog --colors --msgbox " Remember to enable bridge (Share to Nightscout bridge)" 5 60
@@ -125,6 +125,8 @@ Remember you need an active Dex follower.\nServer must be US or EU." 12 50 0 \
 		fi
         ;;
       7) # Alerts and alarms
+	    ./alarms.sh
+		sudo ./restart.sh	# Deploy the changes
         ;;
       8) # DEVICESTATUS
         ;;
@@ -132,13 +134,16 @@ Remember you need an active Dex follower.\nServer must be US or EU." 12 50 0 \
         ;;
       A) # Edit file
 	    sudo nano /nightscout/docker-compose.yml
-		sudo ./initial.sh	# Deploy the changes
+		sudo ./restart.sh	# Deploy the changes
         ;;
       0) # Back
 	    prompt=1
 	    exit
         ;;
   esac
+  if [ $prompt = 1 ]
+  then
+    exit;
+  fi
 done
 
-sudo ./menu.sh		# Return to menu

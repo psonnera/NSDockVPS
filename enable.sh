@@ -99,4 +99,4 @@ if [ $exit_code = "0" ]
 fi
 
 sudo sed -i "s/$oldenable/$en_str/" /nightscout/docker-compose.yml
-sudo ./varedit.sh
+

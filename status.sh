@@ -44,6 +44,3 @@ do
   fi
 done
 
-#read dummy </dev/tty
-
-sudo ./menu.sh
