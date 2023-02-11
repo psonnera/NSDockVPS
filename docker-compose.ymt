@@ -83,6 +83,7 @@ services:
 # -----------------------------------------------------------------------------------------------
 # Do not change anything below unless you know what you are doing
 # -----------------------------------------------------------------------------------------------
+      INSECURE_USE_HTTP: 'true'
       MONGO_CONNECTION: mongodb://mongo:27017/Nightscout
     ports:
       - "1337:1337"
@@ -97,7 +98,7 @@ services:
       - 'traefik.http.routers.nightscout.tls.certresolver=le'
     volumes:
       - /nightscout/docker:/var/opt/ssl/:ro
-    restart: always
+    restart: unless-stopped
 
   mongo:
     image: mongo:4.4
@@ -108,7 +109,7 @@ services:
     #ports:
       #- "27017:27017"
     logging: *default-logging
-    restart: always
+    restart: unless-stopped
 
   traefik:
     image: traefik:latest
@@ -130,4 +131,4 @@ services:
     volumes:
       - './letsencrypt:/letsencrypt'
       - '/var/run/docker.sock:/var/run/docker.sock:ro' 
-    restart: always
+    restart: unless-stopped
