@@ -1,13 +1,20 @@
 ######################################################################################################
 #
-#  docker-compose.yml Versione 1.2
+#  docker-compose.yml Version 1.3
 #
 #  Patrick Sonnerat - https://github.com/psonnera
 #
 ######################################################################################################
 
- 
-version: '3.4.1'
+version: '3.9'
+
+x-logging:
+  &default-logging
+  options:
+    max-size: '10m'
+    max-file: '5'
+  driver: json-file
+
 services:
   nightscout:
     image: nightscout/cgm-remote-monitor:latest
@@ -80,7 +87,7 @@ services:
     ports:
       - "1337:1337"
     depends_on:
-      - mongo    
+      - mongo
     labels:
       - 'traefik.enable=true'
       # Change the below Host from `localhost` to be the web address where Nightscout is running.
@@ -91,21 +98,21 @@ services:
     volumes:
       - /nightscout/docker:/var/opt/ssl/:ro
     restart: always
-    
+
   mongo:
-    image: mongo:4.4.9
+    image: mongo:4.4
+    container_name: mongo
     volumes:
-      - ./data:/data/db                                                                      
-    ports:
-      - "27017:27017"
-      - "27018:27018"
-      - "27019:27019"
-      - "28017:28017"
+      - ./data:/data/db
+# Enable only of you want external access, but then you should modify mongo login and passord
+    #ports:
+      #- "27017:27017"
+    logging: *default-logging
     restart: always
-    
+
   traefik:
     image: traefik:latest
-    container_name: 'traefik2'
+    container_name: 'traefik'
     command:
       - '--providers.docker=true'
       - '--providers.docker.exposedbydefault=false'

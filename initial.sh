@@ -16,8 +16,10 @@ BACKTITLE="Nightscout Docker VPS Setup"
 # DDNS URL name configuration
 
 cd /nightscout/NSDockVPS
-ipaddress=`hostname -I | head -n1 | cut -d " " -f1`
+#ipaddress=`hostname -I | head -n1 | cut -d " " -f1`	NOt working on GC as external IP is not reported
+ipaddress==$(wget -q -O - http://checkip.dyndns.org|sed s/[^0-9.]//g)
 
+echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
 if [ ! -f config_dns.txt ] # DDNS configuration undefined
   then
   dnsname=$(\dialog --clear --backtitle "$BACKTITLE" \
@@ -50,6 +52,7 @@ fi
 
 if [  "`grep "YOUR_TIMEZONE" /nightscout/docker-compose.yml`" != "" ] # Let's update the time zone
   then
+  echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
   tzone=`./timezone.sh`
   sudo sed -i "s%YOUR_TIMEZONE%$tzone%" /nightscout/docker-compose.yml 
 fi
@@ -58,6 +61,7 @@ fi
 
 if [  "`grep "YOUR_EMAIL" /nightscout/docker-compose.yml`" != "" ]
 then
+  echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
   emailname=$(\dialog --clear --backtitle "$BACKTITLE" \
        --nocancel --ok-label "Confirm email" --title "Email setup" \
        --inputbox "Traefic needs your email for urgent notifications.\nEnter it below." 10 50 \
@@ -69,6 +73,7 @@ fi
 
 if [  "`grep "YOUR_API_SECRET" /nightscout/docker-compose.yml`" != "" ]
 then
+  echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
   apisecret=$(\dialog --clear --backtitle "$BACKTITLE" \
        --nocancel --ok-label "Confirm API_SECRET" --title "Setup your API_SECRET" \
        --inputbox "This is the password to enter your Nightscout site and settings.\nIt must be at least 12 characters long.\nUse only letters and numbers, no spaces." 10 50 \

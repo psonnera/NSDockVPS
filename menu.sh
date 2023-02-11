@@ -90,9 +90,9 @@ do
 		read dnsname < config_dns.txt
 		sudo sed -i "s/$oldname/$dnsname/" /nightscout/docker-compose.yml
         sudo ./restart.sh
-        cd /nightscout/NSDockVPS
         ;;
       4) # Update Nightscout
+        cd /nightscout/NSDockVPS
 	    sudo docker compose pull
         sudo ./restart.sh
         ;;
@@ -101,11 +101,10 @@ do
 		sudo ./restart.sh
         ;;
       6) # Import Data
+	    sudo ./import.sh
         ;;
       7) # Restart Nightscout
-        cd /nightscout
         sudo ./restart.sh
-        cd /nightscout/NSDockVPS
         ;;
       8) # Exit to prompt
 		clear

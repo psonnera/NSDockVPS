@@ -60,8 +60,8 @@ sudo rm /nightscout/NSDockVPS/config_dns.txt
 sudo apt autoremove
 
 cd /nightscout/NSDockVPS
-if [ ${SUDO_USER:-$USER} = "root" ]
-  then
+#if [ ${SUDO_USER:-$USER} = "root" ]
+#  then
   ipaddress=`hostname -I | head -n1 | cut -d " " -f1`
   echo
   echo -e "\x1b[37;44mHere we are, pretty much done for this first phase.                                               \x1b[0m"
@@ -70,6 +70,6 @@ if [ ${SUDO_USER:-$USER} = "root" ]
   echo -e "\x1b[37;44mLogout and open a new terminal with the command above.                                            \x1b[0m"
   echo -e "\n\nPress Enter to continue. Then type logout or Ctr-D."
   read dummy </dev/tty 
-  else
-  sudo ./menu.sh
-fi
+#  else
+#  sudo ./menu.sh
+#fi
