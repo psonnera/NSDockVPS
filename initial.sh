@@ -15,7 +15,7 @@ BACKTITLE="Nightscout Docker VPS Setup"
 
 # DDNS URL name configuration
 
-cd /nightscout/NSDockVPS
+cd /nightscout
 #ipaddress=`hostname -I | head -n1 | cut -d " " -f1`	NOt working on GC as external IP is not reported
 ipaddress==$(wget -q -O - http://checkip.dyndns.org|sed s/[^0-9.]//g)
 
@@ -47,7 +47,6 @@ if [  "`grep "DISK_SIZE" /nightscout/docker-compose.yml`" != "" ] # Let's update
   sudo sed -i "s%DISK_SIZE%$dbspace%" /nightscout/docker-compose.yml 
 fi
 
-
 # TIMEZONE configuration
 
 if [  "`grep "YOUR_TIMEZONE" /nightscout/docker-compose.yml`" != "" ] # Let's update the time zone
@@ -56,6 +55,9 @@ if [  "`grep "YOUR_TIMEZONE" /nightscout/docker-compose.yml`" != "" ] # Let's up
   tzone=`./timezone.sh`
   sudo sed -i "s%YOUR_TIMEZONE%$tzone%" /nightscout/docker-compose.yml 
 fi
+
+clear
+echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
 
 # email configuration for traefik
 

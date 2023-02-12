@@ -69,30 +69,30 @@ do
       0) # Advanced
         ;;
       1) # Status
+        cd /nightscout/NSDockVPS
 	    sudo ./status.sh
         ;;
       2) # Update scripts
-	    cd /nightscout/NSDockVPS
-		sudo cp config_dns.txt ..
+        cd /nightscout/NSDockVPS
 		git reset --hard
         git pull
-        sudo cp ../config_dns.txt .
 		sudo chmod 775 *.sh
 		clear
-        echo -e "\x1b[37;44mEnter menu of ./menu.sh to return to the menu                                                     \x1b[0m"
+        echo -e "\x1b[37;44mEnter menu or ./menu.sh to return to the menu                                                     \x1b[0m"
 	    prompt=1
         exit
         ;;
       3) # DNS name
-	    read oldname < config_dns.txt
-		sudo rm config_dns.txt
+        cd /nightscout/NSDockVPS
+	    read oldname < /nightscout/config_dns.txt
+		sudo rm /nightscout/config_dns.txt
 	    sudo ./dnsname.sh
-		read dnsname < config_dns.txt
+		read dnsname < /nightscout/config_dns.txt
 		sudo sed -i "s/$oldname/$dnsname/" /nightscout/docker-compose.yml
         sudo ./restart.sh
         ;;
       4) # Update Nightscout
-        cd /nightscout/NSDockVPS
+        cd /nightscout
 	    sudo docker compose pull
         sudo ./restart.sh
         ;;

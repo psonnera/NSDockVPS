@@ -11,9 +11,9 @@ echo -e "\x1b[37;44mConfigure DNS name.                                         
 
 BACKTITLE="Nightscout Docker VPS Initial configuration"
 #ipaddress=`hostname -I | head -n1 | cut -d " " -f1`	NOt working on GC as external IP is not reported
-ipaddress==$(wget -q -O - http://checkip.dyndns.org|sed s/[^0-9.]//g)
+ipaddress=$(wget -q -O - http://checkip.dyndns.org|sed s/[^0-9.]//g)
 
-cd /nightscout/NSDockVPS
+cd /nightscout
 while [ ! -f config_dns.txt ]
 do
 

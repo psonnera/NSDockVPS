@@ -76,6 +76,7 @@ fi
 echo -e "\x1b[37;44mInstalling utilities.                                                                             \x1b[0m"
 sudo apt-get -y install dialog
 sudo apt-get -y install nano
+sudo apt-get -y install iputils-ping
 
 # Now let's see what kind of VPS we're working on
 
