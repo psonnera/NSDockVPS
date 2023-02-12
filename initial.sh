@@ -19,6 +19,7 @@ cd /nightscout
 #ipaddress=`hostname -I | head -n1 | cut -d " " -f1`	NOt working on GC as external IP is not reported
 ipaddress==$(wget -q -O - http://checkip.dyndns.org|sed s/[^0-9.]//g)
 
+reset
 echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
 if [ ! -f config_dns.txt ] # DDNS configuration undefined
   then
@@ -51,18 +52,17 @@ fi
 
 if [  "`grep "YOUR_TIMEZONE" /nightscout/docker-compose.yml`" != "" ] # Let's update the time zone
   then
+  reset
   echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
   tzone=`./timezone.sh`
   sudo sed -i "s%YOUR_TIMEZONE%$tzone%" /nightscout/docker-compose.yml 
 fi
 
-clear
-echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
-
 # email configuration for traefik
 
 if [  "`grep "YOUR_EMAIL" /nightscout/docker-compose.yml`" != "" ]
 then
+  reset
   echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
   emailname=$(\dialog --clear --backtitle "$BACKTITLE" \
        --nocancel --ok-label "Confirm email" --title "Email setup" \
@@ -75,6 +75,7 @@ fi
 
 if [  "`grep "YOUR_API_SECRET" /nightscout/docker-compose.yml`" != "" ]
 then
+  reset
   echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
   apisecret=$(\dialog --clear --backtitle "$BACKTITLE" \
        --nocancel --ok-label "Confirm API_SECRET" --title "Setup your API_SECRET" \

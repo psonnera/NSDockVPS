@@ -59,6 +59,7 @@ sudo rm /nightscout/NSDockVPS/config_dns.txt
 # Cleanup
 sudo apt autoremove
 
+clear
 cd /nightscout/NSDockVPS
 #if [ ${SUDO_USER:-$USER} = "root" ]
 #  then

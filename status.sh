@@ -36,19 +36,19 @@ do
       echo -e "\tTraefik status:\t\t\x1b[32;1mUP\x1b[0m"
     fi
 
+    read sitename < /nightscout/config_dns.txt
     ipaddress=$(wget -q -O - http://checkip.dyndns.org|sed s/[^0-9.]//g)
     ipping=$(ping -c 1 $dnsname | grep "$dnsname (" | sed -nE 's/^PING[^(]+\(([^)]+)\).*/\1/p')
 
     echo -e "\n\x1b[37;40;1mNetwork status\x1b[0m\n"
     if [ ipaddress=ipping ]
-    them
+    then
       echo -e "\tDNS service:\t\t\x1b[32;1mUp $ipaddress\x1b[0m"
     else
       echo -e "\tDNS service:\t\t\x1b[37;41;1mNot matching: DNS:$ipping vs VPS:$ipaddress\x1b[0m"
       echo -e "\tDNS service:\t\t\x1b[37;41;1mCheck your DNS configuration\x1b[0m"
     fi
 
-    read sitename < /nightscout/config_dns.txt
     echo -e "\tNightscout site $sitename status:"
     if [[ $(wget -S --spider  "http://$sitename"  2>&1 | grep 'HTTP/1.1 200 OK') ]]
 	then
@@ -62,8 +62,10 @@ do
 	else
       echo -e "\t\t\t\x1b[37;41;1mCertificate error: try another DNS name.\x1b[0m"
 	fi
+	
+    echo -e "\n\x1b[37;40;1mDisk space\x1b[0m\n"
+	df -h /
 
-    echo -e "\x1b[37;44m\nPress Any key to exit.                                                                          \x1b[0m"
+    echo -e "\x1b[37;44m\nPress Any key to exit. Ctrl-C to stop.                                                          \x1b[0m"
   fi
 done
-
