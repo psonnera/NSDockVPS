@@ -84,11 +84,11 @@ do
         ;;
       3) # DNS name
         cd /nightscout/NSDockVPS
-	    read oldname < /nightscout/config_dns.txt
-		sudo rm /nightscout/config_dns.txt
 	    sudo ./dnsname.sh
 		read dnsname < /nightscout/config_dns.txt
-		sudo sed -i "s/$oldname/$dnsname/" /nightscout/docker-compose.yml
+        currdns="`grep "traefik.http.routers.nightscout.rule=Host" /nightscout/docker-compose.yml`"
+		newdns="      - 'traefik.http.routers.nightscout.rule=Host(\`$dnsname\`)'"
+		sudo sed -i "s/$currdns/$newdns/" /nightscout/docker-compose.yml
         sudo ./restart.sh
         ;;
       4) # Update Nightscout

@@ -52,13 +52,13 @@ do
     echo -e "\tNightscout site $sitename status:"
     if [[ $(wget -S --spider  "http://$sitename"  2>&1 | grep 'HTTP/1.1 200 OK') ]]
 	then
-	  echo "\t\t\x1b[32;1mHTTP UP\x1b[0m"
+	  echo -e "\t\t\t\t\x1b[32;1mHTTP UP\x1b[0m"
     else
       echo -e "\t\t\t\x1b[37;41;1mNightscout down.\x1b[0m"
 	fi
     if [[ $(wget -S --spider  "https://$sitename"  2>&1 | grep 'HTTP/1.1 200 OK') ]]
 	then
-	  echo "\t\t\x1b[32;1mHTTPS UP\x1b[0m"
+	  echo -e "\t\t\t\t\x1b[32;1mHTTPS UP\x1b[0m"
 	else
       echo -e "\t\t\t\x1b[37;41;1mCertificate error: try another DNS name.\x1b[0m"
 	fi
