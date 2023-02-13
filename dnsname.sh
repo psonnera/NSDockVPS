@@ -19,7 +19,6 @@ sudo rm config_dns.txt
 
 while [ ! -f /nightscout/config_dns.txt ]
 do
-
   dnsname=$(\dialog --clear --backtitle "$BACKTITLE" \
        --nocancel --ok-label "Test URL" --title "DNS name setup" \
        --inputbox "Create a Nightscout URL with FreeDNS or Dynu or any other DDNS service of your choice.\n\
