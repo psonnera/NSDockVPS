@@ -38,7 +38,7 @@ do
 
     read sitename < /nightscout/config_dns.txt
     ipaddress=$(wget -q -O - http://checkip.dyndns.org|sed s/[^0-9.]//g)
-    ipping=$(ping -c 1 $dnsname | grep "$dnsname (" | sed -nE 's/^PING[^(]+\(([^)]+)\).*/\1/p')
+    ipping=$(ping -c 1 $sitename | grep "$sitename (" | sed -nE 's/^PING[^(]+\(([^)]+)\).*/\1/p')
 
     echo -e "\n\x1b[37;40;1mNetwork status\x1b[0m\n"
     if [ ipaddress=ipping ]
@@ -67,5 +67,6 @@ do
 	df -h /
 
     echo -e "\x1b[37;44m\nPress Any key to exit. Ctrl-C to stop.                                                          \x1b[0m"
+	sleep 1
   fi
 done

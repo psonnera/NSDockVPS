@@ -34,7 +34,8 @@ Once setup type the URL below without https://\n(For example: mybg.mooo.com)" 10
        --nocancel --ok-label "Retry" --title "DNS name mismatch" \
        --msgbox "Your DNS name $dnsname is at IP = $ipping\n\
 And this VPS is at IP = $ipaddress \n\
-\nCheck your configuration in FreeDNS or Dynu (or other DDNS provider)" 8 80
+\nCheck your configuration in FreeDNS or Dynu (or other DDNS provider)\
+\nIf everything is setup correctly, reboot your VPS and retry." 8 80
   fi
 
 done

@@ -104,9 +104,12 @@ do
 	    sudo ./import.sh
         ;;
       7) # Restart Nightscout
-        sudo ./restart.sh
+	    cd /nightscout
+        sudo docker compose down
+		sudo ./restart.sh
         ;;
       8) # Exit to prompt
+        cd /nightscout/NSDockVPS
 		clear
         echo -e "\x1b[37;44mEnter menu of ./menu.sh to return to the menu                                                     \x1b[0m"
 	    prompt=1
