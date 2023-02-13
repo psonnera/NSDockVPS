@@ -14,9 +14,12 @@ BACKTITLE="Nightscout Docker VPS Initial configuration"
 ipaddress=$(wget -q -O - http://checkip.dyndns.org|sed s/[^0-9.]//g)
 
 cd /nightscout
-while [ ! -f config_dns.txt ]
+read sitename < /nightscout/config_dns.txt
+sudo rm config_dns.txt
+
+while [ ! -f /nightscout/config_dns.txt ]
 do
-  read sitename < /nightscout/config_dns.txt
+
   dnsname=$(\dialog --clear --backtitle "$BACKTITLE" \
        --nocancel --ok-label "Test URL" --title "DNS name setup" \
        --inputbox "Create a Nightscout URL with FreeDNS or Dynu or any other DDNS service of your choice.\n\
@@ -28,7 +31,7 @@ Once setup type the URL below without https://\n(For example: mybg.mooo.com)" 10
 
   if [ $ipping = $ipaddress ]
   then
-    echo $dnsname > config_dns.txt
+    echo $dnsname > /nightscout/config_dns.txt
   else
   dialog --clear --backtitle "$BACKTITLE" \
        --nocancel --ok-label "Retry" --title "DNS name mismatch" \
