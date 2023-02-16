@@ -107,7 +107,8 @@ do
 	    cd /nightscout
         sudo docker compose down
 		nohup sudo docker compose up -d &	# run it in background
-		-dialog --nook --nocancel --pause "Now wait up to 5 minutes\nfor your Nightscout site to update." 7 40 10
+        cd /nightscout/NSDockVPS
+		dialog --nook --nocancel --pause "Now wait up to 5 minutes\nfor your Nightscout site to restart." 7 40 10
 		sudo ./status.sh
         ;;
       8) # Exit to prompt

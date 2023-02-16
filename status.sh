@@ -54,13 +54,13 @@ do
 	then
 	  echo -e "\t\t\t\t\x1b[32;1mHTTP UP\x1b[0m"
     else
-      echo -e "\t\t\t\x1b[37;41;1mNightscout down.\x1b[0m"
+      echo -e "\t\t\t\x1b[37;41;1mWeb server DOWN.\x1b[0m"
 	fi
     if [[ $(wget -S --spider  "https://$sitename"  2>&1 | grep 'HTTP/1.1 200 OK') ]]
 	then
 	  echo -e "\t\t\t\t\x1b[32;1mHTTPS UP\x1b[0m"
 	else
-      echo -e "\t\t\t\x1b[37;41;1mCertificate error: try another DNS name.\x1b[0m"
+      echo -e "\t\t\t\x1b[37;41;1mHTTPS DOWN.\x1b[0m"
 	fi
 	
     echo -e "\n\x1b[37;40;1mDisk space\x1b[0m\n"

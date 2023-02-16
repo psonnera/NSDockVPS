@@ -1,9 +1,16 @@
 #!/bin/bash
 ######################################################################################################
 #
-#  Import from an existing Nightscout site
+#  Import from an existing Nightscout site or a Mongo database
 #
-#  Code from https://github.com/jamorham/nightscout-vps/blob/vps-1/clone_nightscout.sh
+# Part of this code is Copyright and copied from https://github.com/jamorham/nightscout-vps/blob/vps-1/clone_nightscout.sh
+# jamorham/nightscout-vps is licensed under the GNU Affero General Public License v3.0
+# Permissions of this strongest copyleft license are conditioned on making available complete source code of licensed works 
+# and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices 
+# must be preserved. Contributors provide an express grant of patent rights. When a modified version is used to provide a 
+# service over a network, the complete source code of the modified version must be made available.
+#
+# Change log from original version is available at https://github.com/psonnera/NSDockVPS/commits/master/import.sh
 #
 ######################################################################################################
 
@@ -52,6 +59,7 @@ clone_collections() {
     done
 }
 
+importNS() {
 # Try 5 times to get the user input.
 for i in {1..5}
 do
@@ -92,4 +100,36 @@ do
      exit 0
    
 done
- 
+}
+
+prompt=0
+
+while [ $prompt = 0 ]
+do
+  HEIGHT=9
+  WIDTH=40
+  CHOICE_HEIGHT=2
+  BACKTITLE="Nightscout Docker Data Import"
+  TITLE="Nightscout Management"
+  MENU="Use up/down arrows to select:"
+  OPTIONS=(1 "Import from an existing Nightscout"
+		 2 "Import from a Mongo Database")
+
+  CHOICE=$(dialog --clear \
+        --backtitle "$BACKTITLE" \
+        --title "$TITLE" \
+        --menu "$MENU" \
+        $HEIGHT $WIDTH $CHOICE_HEIGHT \
+        "${OPTIONS[@]}" \
+        2>&1 >/dev/tty)
+		
+  clear
+  case $CHOICE in
+      0) # Nightscout
+	    importNS();
+        ;;
+      1) # MongoDB
+        ;;
+  esac
+done
+
