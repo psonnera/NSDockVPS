@@ -5,7 +5,6 @@
 #  Patrick Sonnerat - https://github.com/psonnera
 #
 ######################################################################################################
-
 version: '3.9'
 
 x-logging:
@@ -29,12 +28,13 @@ services:
       ENABLE: careportal sage iage cage iob cob basal upbat devicestatus dbsize cors
       SHOW_PLUGINS: careportal sage iob cob dbsize cors ar2
       DISPLAY_UNITS: mg/dl
-
+# Bridge
       #BRIDGE_USER_NAME: username
       #BRIDGE_PASSWORD: password
       #BRIDGE_SERVER: EU
-
+# Privacy
       AUTH_DEFAULT_ROLES: readable
+#Visualizations
       NIGHT_MODE: off
       THEME: colors
       TIME_FORMAT: 24
@@ -45,11 +45,11 @@ services:
       #BASAL_RENDER: default
       BOLUS_RENDER_FORMAT_SMALL: minimal
       BOLUS_RENDER_OVER: 1
-
       BG_LOW: 60
       BG_TARGET_BOTTOM: 70
       BG_TARGET_TOP: 180
       BG_HIGH: 200
+#Alarms and alerts
       ALARM_TYPES: simple
       ALARM_HIGH: on
       ALARM_LOW: on
@@ -59,7 +59,7 @@ services:
       ALARM_TIMEAGO_URGENT_MINS: 30
       ALARM_TIMEAGO_WARN: on
       ALARM_TIMEAGO_WARN_MINS: 15
-
+# Devices
       DEVICESTATUS_ADVANCED: true
       SAGE_INFO: 336
       SAGE_URGENT: 348
@@ -85,8 +85,8 @@ services:
 # -----------------------------------------------------------------------------------------------
       INSECURE_USE_HTTP: 'true'
       MONGO_CONNECTION: mongodb://mongo:27017/Nightscout
-    ports:
-      - "1337:1337"
+#    ports:
+#      - "1337:1337"
     depends_on:
       - mongo
     labels:
