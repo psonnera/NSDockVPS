@@ -3,7 +3,7 @@
 #
 #  Nightscout in Docker Scripted Deployment
 #
-#  Paper Plane Nightscout Challenge - Candidate 0.2
+#  Paper Plane Nightscout Challenge - Candidate 0.3
 #
 #  Using knowledge and code from #WeAreNotWaiting people
 #  In no order Jon, Navid, Tzachi, Peter, Andries, Amber
