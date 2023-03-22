@@ -41,7 +41,7 @@ while [ $prompt = 0 ]
 do
   HEIGHT=17
   WIDTH=40
-  CHOICE_HEIGHT=10
+  CHOICE_HEIGHT=8
   BACKTITLE="Nightscout Docker VPS Management"
   TITLE="Nightscout Management"
   MENU="Use up/down arrows to select:"
@@ -50,11 +50,9 @@ do
 		 3 "Change DNS name"
 		 4 "Update Nightscout"
 		 5 "Edit Variables"
-		 6 "Import Data"
-		 7 "Restart Nightscout"
-         8 "Exit to command prompt"
-		 9 "Reboot Server"
-		 0 "Advanced menu")
+		 6 "Restart Nightscout"
+         7 "Exit to command prompt"
+		 8 "Reboot Server")
 
   CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
@@ -100,10 +98,7 @@ do
 	    sudo ./varedit.sh
 		sudo ./restart.sh
         ;;
-      6) # Import Data
-	    sudo ./import.sh
-        ;;
-      7) # Restart Nightscout
+      6) # Restart Nightscout
 	    cd /nightscout
         sudo docker compose down
 		nohup sudo docker compose up -d &	# run it in background
@@ -111,14 +106,14 @@ do
 		dialog --nook --nocancel --pause "Now wait up to 5 minutes\nfor your Nightscout site to restart." 7 40 10
 		sudo ./status.sh
         ;;
-      8) # Exit to prompt
+      7) # Exit to prompt
         cd /nightscout/NSDockVPS
 		clear
         echo -e "\x1b[37;44mEnter menu of ./menu.sh to return to the menu                                                     \x1b[0m"
 	    prompt=1
         exit
         ;;
-      9) # Reboot VPS
+      8) # Reboot VPS
 	    sudo reboot
         ;;
   esac
