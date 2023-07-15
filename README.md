@@ -1,4 +1,7 @@
 # NSDockVPS
- Scripted install of Nightscout in a Docker container for a small VPS
+ Installazione di Nightscout in un contenitore Docker per un piccolo VPS come IONOS XS (1€/mese)
 </br>
-curl https://raw.githubusercontent.com/psonnera/NSDockVPS/master/boot.sh | bash
+Copia incolla la riga di commando sotto nel terminale:
+```
+curl https://raw.githubusercontent.com/psonnera/NSDockVPS/ionos_it/boot.sh | bash
+```
