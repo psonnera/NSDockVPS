@@ -25,7 +25,7 @@ fi
 
 if [ ! -f /nightscout/config_dns.txt ] # DDNS configuration undefined
   then
-  hostname -A > /nightscout/config_dns.txt
+  echo `hostname -A | head -n1 | cut -d " " -f1` > /nightscout/config_dns.txt
   read dnsname < /nightscout/config_dns.txt
   sudo hostnamectl set-hostname $dnsname
 fi
@@ -52,7 +52,7 @@ do
   BACKTITLE="Gestione Nightscout Docker VPS"
   TITLE="Nightscout Management"
   MENU="Usa le frecce su e giu per selezionare:"
-  OPTIONS=(1 "Visualizzare lo stato di Nigtscout"
+  OPTIONS=(1 "Visualizzare lo stato"
 		 2 "Aggiornare gli script"
 		 3 "Cambiare il nome DNS"
 		 4 "Aggiornare Nightscout"

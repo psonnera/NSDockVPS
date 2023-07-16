@@ -23,7 +23,7 @@ reset
 #echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
 if [ ! -f config_dns.txt ] # DDNS configuration undefined
   then
-  hostname -A > config_dns.txt
+  echo `hostname -A | head -n1 | cut -d " " -f1` > config_dns.txt
   read dnsname < config_dns.txt
   sudo hostnamectl set-hostname $dnsname
 fi
