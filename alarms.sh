@@ -76,28 +76,6 @@ fi
 
 aldialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Impostazione valori di allarmi" \
 --form " Digita livelli e ritardi sotto.\n\
- Usa le unita che vuoi, mmol/l o mg/dl. Nightscout convertira automaticamente." 12 50 0 \
-"${al_des[6]}: " 1 1 "${al_sta[6]}" 1 14 4 0 \
-"${al_des[7]}: " 1 1 "${al_sta[7]}" 2 14 4 0 \
-"${al_des[8]}: " 1 1 "${al_sta[8]}" 3 14 4 0 \
-"${al_des[9]}: " 1 1 "${al_sta[9]}" 4 14 4 0 \
-"${al_des[10]}: " 1 1 "${al_sta[10]}" 5 14 4 0 \
-"${al_des[11]}: " 1 1 "${al_sta[11]}" 6 14 4 0 \
- 2>&1 >/dev/tty)
-status=$?
-
-if [ $status = 0 ]
-  then
-  al_new=($aldialog)
-
-  for i in 6 7 8 9 10 11; do
-"${al_des[0]}" ${al_sta[0]}
-    sudo sed -i "s/${al_var[i]} ${al_sta[i]}/${al_var[i]} ${al_new[i-6]}/" /nightscout/docker-compose.yml
-  done
-fi
-
-aldialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Impostazione valori di allarmi" \
---form " Digita livelli e ritardi sotto.\n\
  Usa le unita che vuoi, mmol/l o mg/dl. Nightscout convertira automaticamente." 15 55 0 \
 "${al_des[6]}" 1 1 "${al_sta[6]}" 1 45 4 0 \
 "${al_des[7]}" 2 1 "${al_sta[7]}" 2 45 4 0 \

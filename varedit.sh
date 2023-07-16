@@ -13,7 +13,7 @@ prompt=0
 
 while [ $prompt = 0 ]
 do
-  HEIGHT=18
+  HEIGHT=20
   WIDTH=40
   CHOICE_HEIGHT=11
   BACKTITLE="Gestione Nightscout Docker VPS"
