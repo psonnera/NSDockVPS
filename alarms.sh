@@ -23,12 +23,12 @@ al_var=(
 'ALARM_TIMEAGO_WARN_MINS:'
 )
 al_des=(
-'Abilita l'allarme sopra la soglia glicemia alta'
-'Abilita l'allarme sotto la soglia glicemia bassa'
-'Abilita l'allarme urgente sopra la soglia alta urgente'
-'Abilita l'allarme urgente sotto la soglia bassa urgente'
-'Abilita l'allarme urgente per dati mancanti'
-'Abilita l'allarme per dati mancanti'
+'Abilita allarme sopra la soglia glicemia alta'
+'Abilita allarme sotto la soglia glicemia bassa'
+'Abilita allarme urgente sopra la soglia alta urgente'
+'Abilita allarme urgente sotto la soglia bassa urgente'
+'Abilita allarme urgente per dati mancanti'
+'Abilita allarme per dati mancanti'
 'Valore glicemia bassa urgente'
 'Valore glicemia bassa'
 'Valore glicemia alta urgente'
@@ -76,7 +76,7 @@ fi
 
 aldialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Impostazione valori di allarmi" \
 --form " Digita livelli e ritardi sotto.\n\
- Usa l'unita che vuoi, mmol/l o mg/dl. Nightscout convertira automaticamente." 12 50 0 \
+ Usa le unita che vuoi, mmol/l o mg/dl. Nightscout convertira automaticamente." 12 50 0 \
 "${al_des[6]}: " 1 1 "${al_sta[6]}" 1 14 4 0 \
 "${al_des[7]}: " 1 1 "${al_sta[7]}" 2 14 4 0 \
 "${al_des[8]}: " 1 1 "${al_sta[8]}" 3 14 4 0 \
@@ -96,9 +96,9 @@ if [ $status = 0 ]
   done
 fi
 
-aldialog=$(dialog --clear --backtitle "$BACKTITLE" --title "SImpostazione valori di allarmi" \
+aldialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Impostazione valori di allarmi" \
 --form " Digita livelli e ritardi sotto.\n\
- Usa l'unita che vuoi, mmol/l o mg/dl. Nightscout convertira automaticamente." 15 55 0 \
+ Usa le unita che vuoi, mmol/l o mg/dl. Nightscout convertira automaticamente." 15 55 0 \
 "${al_des[6]}" 1 1 "${al_sta[6]}" 1 45 4 0 \
 "${al_des[7]}" 2 1 "${al_sta[7]}" 2 45 4 0 \
 "${al_des[8]}" 3 1 "${al_sta[8]}" 3 45 4 0 \

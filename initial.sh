@@ -36,7 +36,7 @@ fi
 
 # DB_SIZE from disk size minus 1GB
 
-if [  "`grep "DISK_SIZE" /nightscout/docker-compose.yml`" != "" ] # Let's update the time zone
+if [  "`grep "DISK_SIZE" /nightscout/docker-compose.yml`" != "" ]
   then
   dskspace="$(df / | sed -n 2p | awk '{print $4}')"
   let dbspace=dskspace/1024-1024
