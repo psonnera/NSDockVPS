@@ -14,8 +14,8 @@ BACKTITLE="Nightscout Docker VPS configurazione iniziale"
 ipaddress=$(wget -q -O - http://checkip.dyndns.org|sed s/[^0-9.]//g)
 
 cd /nightscout
-read sitename < /nightscout/config_dns.txt
-sudo rm config_dns.txt
+read sitename < config_dns.txt
+#sudo rm config_dns.txt
 
 while [ ! -f /nightscout/config_dns.txt ]
 do

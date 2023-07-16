@@ -23,6 +23,13 @@ EOF
   sudo mv NSVPSMenu.sh /etc/profile.d/
 fi
 
+if [ ! -f /nightscout/config_dns.txt ] # DDNS configuration undefined
+  then
+  hostname -A > /nightscout/config_dns.txt
+  read dnsname < /nightscout/config_dns.txt
+  sudo hostnamectl set-hostname $dnsname
+fi
+
 # check this is the first run or not
 
 if [ ! "`sudo docker ps -a | grep "docker"`" ] # any container running?
