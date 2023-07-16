@@ -9,7 +9,7 @@
 #
 ######################################################################################################
 
-echo -e "\x1b[37;44mNightscout Docker VPS configuration                                                       \x1b[0m"
+echo -e "\x1b[37;44mNightscout Docker VPS configurazione                                                              \x1b[0m"
 
 cd /nightscout/NSDockVPS
 
@@ -42,17 +42,17 @@ do
   HEIGHT=17
   WIDTH=40
   CHOICE_HEIGHT=8
-  BACKTITLE="Nightscout Docker VPS Management"
+  BACKTITLE="Gestione Nightscout Docker VPS"
   TITLE="Nightscout Management"
-  MENU="Use up/down arrows to select:"
-  OPTIONS=(1 "View Nightscout Status"
-		 2 "Update Scripts"
-		 3 "Change DNS name"
-		 4 "Update Nightscout"
-		 5 "Edit Variables"
-		 6 "Restart Nightscout"
-         7 "Exit to command prompt"
-		 8 "Reboot Server")
+  MENU="Usa le frecce su e giu per selezionare:"
+  OPTIONS=(1 "Visualizzare lo stato di Nigtscout"
+		 2 "Aggiornare gli script"
+		 3 "Cambiare il nome DNS"
+		 4 "Aggiornare Nightscout"
+		 5 "Editare le variabili"
+		 6 "Riavviare Nightscout"
+         7 "Uscire al prompt di commandi"
+		 8 "Riavviare il server VPS")
 
   CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
@@ -73,10 +73,10 @@ do
       2) # Update scripts
         cd /nightscout/NSDockVPS
 		git reset --hard
-        git pull
+        git pull origin ionos_it
 		sudo chmod 775 *.sh
 		clear
-        echo -e "\x1b[37;44mEnter menu or ./menu.sh to return to the menu                                                     \x1b[0m"
+        echo -e "\x1b[37;44mDigita menu o ./menu.sh per tornare al menu                                                       \x1b[0m"
 	    prompt=1
         exit
         ;;
@@ -103,13 +103,13 @@ do
         sudo docker compose down
 		nohup sudo docker compose up -d &	# run it in background
         cd /nightscout/NSDockVPS
-		dialog --nook --nocancel --pause "Now wait up to 5 minutes\nfor your Nightscout site to restart." 7 40 10
+		dialog --nook --nocancel --pause "Aspetta fino a 5 minuti\nper il riavvio di Nightscout." 7 40 10
 		sudo ./status.sh
         ;;
       7) # Exit to prompt
         cd /nightscout/NSDockVPS
 		clear
-        echo -e "\x1b[37;44mEnter menu of ./menu.sh to return to the menu                                                     \x1b[0m"
+        echo -e "\x1b[37;44mDigita menu o ./menu.sh per tornare al menu                                                       \x1b[0m"
 	    prompt=1
         exit
         ;;

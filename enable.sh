@@ -7,7 +7,7 @@
 #
 ######################################################################################################
 
-echo -e "\x1b[37;44mEdit Nightscout variables                                                                         \x1b[0m"
+echo -e "\x1b[37;44mEdita le variabili Nightscout                                                                     \x1b[0m"
 
 en_var=(
 'rawbg'
@@ -29,22 +29,22 @@ en_var=(
 )
 
 en_des=(
-'rawbg (Raw BG)'
-'iob (Insulin-on-Board)'
-'cob (Carbs-on-Board)'
-'cage (Cannula Age)'
-'sage (Sensor Age)'
-'iage (Insulin Age)'
-'bage (Battery Age)'
-'treatmentnotify (Treatment Notifications)'
-'basal (Basal Profile)'
-'bolus (Bolus Rendering)'
-'bridge (Share to Nightscout bridge)'
-'pump (Pump Monitoring)'
+'rawbg (Glicemia grezza)'
+'iob (Insulina attiva)'
+'cob (CHO attivi)'
+'cage (Eta cannula)'
+'sage (Eta sensore)'
+'iage (Eta insulina)'
+'bage (Eta batteria)'
+'treatmentnotify (Notifiche trattamenti)'
+'basal (Profilo di basale)'
+'bolus (Aspetto boli)'
+'bridge (Dexcom share)'
+'pump (Monitoraggio micro)'
 'alexa (Amazon Alexa)'
-'googlehome (Google Home/DialogFLow)'
-'speech (Speech)'
-'cors (CORS)'
+'googlehome (NON FUNZIONA PIU)'
+'speech (Sintesi vocale)'
+'cors (Condivisione risorse)'
 )
 
 oldenable="`grep "ENABLE:" /nightscout/docker-compose.yml`"
@@ -78,8 +78,8 @@ options=(
   F "${en_des[15]}" ${en_sta[15]}
 )
 
-cmd=(dialog --output-fd 1 --separate-output --ok-label 'Save'\
- --cancel-label 'Cancel' --checklist 'Enable these plugins:\nUse space to toggle.' 0 0 0)
+cmd=(dialog --output-fd 1 --separate-output --ok-label 'Salva'\
+ --cancel-label 'Cancella' --checklist 'Abilita questi plugins:\nUsa spazio per cambiare.' 0 0 0)
 load-dialog () {
     choices=$("${cmd[@]}" "${options[@]}")
 }

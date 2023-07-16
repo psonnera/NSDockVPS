@@ -7,7 +7,7 @@
 #
 ######################################################################################################
 
-echo -e "\x1b[37;44mEdit Nightscout variables                                                                         \x1b[0m"
+echo -e "\x1b[37;44mEdita le variabili Nightscout                                                                     \x1b[0m"
 
 prompt=0
 
@@ -16,20 +16,20 @@ do
   HEIGHT=18
   WIDTH=40
   CHOICE_HEIGHT=11
-  BACKTITLE="Nightscout Docker VPS Management"
-  TITLE="Nightscout Variables"
-  MENU="Use up/down arrows to select:"
+  BACKTITLE="Gestione Nightscout Docker VPS"
+  TITLE="Variabili Nightscout"
+  MENU="Usa le frecce su/giu per selezionare:"
   OPTIONS=(1 "API Secret"
-		 2 "Enable plugins"
-		 3 "Show plugins"
-		 4 "Authentication"
-		 5 "Units"
-		 6 "Share bridge"
-		 7 "Alerts and alarms"
-         8 "Device status"
-		 9 "Visualizations"
-		 A "Advanced Edit Config"
-		 0 "Return to main menu")
+		 2 "Abilita plugins"
+		 3 "Mostra plugins"
+		 4 "Autenticazione"
+		 5 "Unita"
+		 6 "Dexcom share"
+		 7 "Allarmi"
+         8 "Stato dispositivo"
+		 9 "Visualizzazioni"
+		 A "Configurazione avanzata"
+		 0 "Torna al menu principale")
 
   CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
@@ -44,16 +44,16 @@ do
       1) # API_SECRET
         apisecret="`grep "API_SECRET" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
         newapisecret=$(dialog --clear --backtitle "$BACKTITLE" \
-       --nocancel --ok-label "Save API_SECRET" --title "Setup your API_SECRET" \
-       --inputbox "This is the password to enter your Nightscout site and settings.\n\
-It must be at least 12 characters long.\nUse only letters and numbers, no spaces." 10 50 $apisecret\
+       --nocancel --ok-label "Salva API_SECRET" --title "Imposta API_SECRET" \
+       --inputbox "Questa e la password del tuo sito Nightscout.\n\
+Minimo 12 caratteri.\nSolo lettere e numeri, no spazi." 10 50 $apisecret\
         3>&1 1>&2 2>&3 3>&- )
         if [ ${#newapisecret} > 11 ]
 		  then
 		  sudo sed -i "s/$apisecret/$newapisecret/" /nightscout/docker-compose.yml
 		  sudo ./restart.sh	# Deploy the changes
 		  else
-		  dialog --colors --msgbox " Cancelled or invalid. API_SECRET unchanged." 5 50
+		  dialog --colors --msgbox " Cancellato o invalido. API_SECRET non cambiato." 5 50
 		fi
         ;;
       2) # ENABLE
@@ -65,10 +65,10 @@ It must be at least 12 characters long.\nUse only letters and numbers, no spaces
 		sudo ./restart.sh	# Deploy the changes
         ;;
       4) # AUTH_DEFAULT_ROLES
-        dialog --clear --backtitle "$BACKTITLE" --title "Setup Authentication" \
-        --no-label "denied" --yes-label "readable" --yesno "\
-You can remove unauthorized access to your Nightscout page with denied.\n\
-Setting it to readable makes your page visible to anybody." 10 50
+        dialog --clear --backtitle "$BACKTITLE" --title "Imposta Autenticazione" \
+        --no-label "privato" --yes-label "pubblico" --yesno "\
+Puoi remuovere gli accessi indesiderati a Nightscout con privato.\n\
+Pubblico lo rende visibile a tutti." 10 50
         status=$?
 		if [ $status = 0 ]
 		  then
@@ -81,9 +81,9 @@ Setting it to readable makes your page visible to anybody." 10 50
 		sudo ./restart.sh	# Deploy the changes
         ;;
       5) # DISPLAY_UNITS
-        dialog --clear --backtitle "$BACKTITLE" --title "Setup Display units" \
+        dialog --clear --backtitle "$BACKTITLE" --title "Impostazione unita" \
         --yes-label "mg/dl" --no-label "mmol/l" --yesno "\
-Choose the measurement unit for your site" 10 50
+Scegli le unita del tuo sito." 10 50
         status=$?
 		if [ $status = 1 ]
 		  then
@@ -99,10 +99,10 @@ Choose the measurement unit for your site" 10 50
         oldbridgeuser="`grep "BRIDGE_USER_NAME:" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
         oldbridgepwd="`grep "BRIDGE_PASSWORD:" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
         oldbridgesrv="`grep "BRIDGE_SERVER:" /nightscout/docker-compose.yml | cut -d ":" -f2 | sed -e 's/^[[:space:]]*//'`"
-        dexdialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Setup Share bridge" \
---form " Enter your Dex credentials below (those you use on the phone connected to the sensor).\n\
-Remember you need an active Dex follower.\nServer must be US or EU." 12 50 0 \
-"Username: " 1 1 "$oldbridgeuser" 1 14 50 0 "Password:" 2 1 "$oldbridgepwd" 2 14 31 0 \
+        dexdialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Imposta Dexcom Share" \
+--form " Digita le credenziali che usi nel telefonino collegato al sensore.\n\
+Ricordati che devi avere un follower attivo.\nIl server deve essere EU (o US)." 12 50 0 \
+"Utente: " 1 1 "$oldbridgeuser" 1 14 50 0 "Password:" 2 1 "$oldbridgepwd" 2 14 31 0 \
 "Server:" 3 1 "$oldbridgesrv" 3 14 3 0 2>&1 >/dev/tty)
         status=$?
         if [ $status = 0 ]
@@ -120,7 +120,7 @@ Remember you need an active Dex follower.\nServer must be US or EU." 12 50 0 \
 		  sudo ./restart.sh	# Deploy the changes
 		  if [ ! "`grep "ENABLE:" /nightscout/docker-compose.yml | grep "bridge"`" ]
 		  then
-		    dialog --colors --msgbox " Remember to enable bridge (Share to Nightscout bridge)" 5 60
+		    dialog --colors --msgbox " Ricordati di abilitare il plugin bridge." 5 60
 		  fi
 		fi
         ;;

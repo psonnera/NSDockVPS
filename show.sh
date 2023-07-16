@@ -7,7 +7,7 @@
 #
 ######################################################################################################
 
-echo -e "\x1b[37;44mEdit Nightscout variables                                                                         \x1b[0m"
+echo -e "\x1b[37;44mEdita le variabili di Nightscout                                                                  \x1b[0m"
 
 sh_var=(
 'rawbg'
@@ -23,16 +23,16 @@ sh_var=(
 )
 
 sh_des=(
-'rawbg (Raw BG)'
-'iob (Insulin-on-Board)'
-'cob (Carbs-on-Board)'
-'cage (Cannula Age)'
-'sage (Sensor Age)'
-'iage (Insulin Age)'
-'bage (Battery Age)'
-'basal (Basal Profile)'
-'bolus (Bolus Rendering)'
-'pump (Pump Monitoring)'
+'rawbg (Glicemia grezza)'
+'iob (Insulina attiva)'
+'cob (CHO attivi)'
+'cage (Eta cannula)'
+'sage (Eta sensore)'
+'iage (Eta insulina)'
+'bage (Eta batteria)'
+'basal (Profilo basale)'
+'bolus (Aspetto boli)'
+'pump (Monitoraggio micro)'
 )
 
 oldshow="`grep "SHOW_PLUGINS:" /nightscout/docker-compose.yml`"
@@ -60,8 +60,8 @@ options=(
   9 "${sh_des[9]}" ${sh_sta[9]}
 )
 
-cmd=(dialog --output-fd 1 --separate-output --ok-label 'Save'\
- --cancel-label 'Cancel' --checklist 'Show these plugins:\nUse space to toggle.' 0 0 0)
+cmd=(dialog --output-fd 1 --separate-output --ok-label 'Salva'\
+ --cancel-label 'Cancella' --checklist 'Visualizza questi plugins:\nUsa spazio per cambiare.' 0 0 0)
 load-dialog () {
     choices=$("${cmd[@]}" "${options[@]}")
 }

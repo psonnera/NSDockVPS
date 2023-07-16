@@ -7,7 +7,7 @@
 #
 ######################################################################################################
 
-echo -e "\x1b[37;44mEdit Nightscout variables                                                                         \x1b[0m"
+echo -e "\x1b[37;44mEdita le variabili di Nightscout                                                                  \x1b[0m"
 al_var=(
 'ALARM_HIGH:'
 'ALARM_LOW:'
@@ -23,18 +23,18 @@ al_var=(
 'ALARM_TIMEAGO_WARN_MINS:'
 )
 al_des=(
-'Enable alarm when crossing BG high target'
-'Enable alarm when crossing BG low target'
-'Enable urgent alarm when crossing high BG value'
-'Enable urgent alarm when crossing low BG value'
-'Enable urgent alarm when no data received'
-'Enable alarm when no data received'
-'Urgent low BG value'
-'Lower normal BG target value'
-'Higher normal BG target value'
-'Urgent high BG value'
-'Urgent delay for missing readings (min)'
-'Warning delay for missing readings (min)'
+'Abilita l'allarme sopra la soglia glicemia alta'
+'Abilita l'allarme sotto la soglia glicemia bassa'
+'Abilita l'allarme urgente sopra la soglia alta urgente'
+'Abilita l'allarme urgente sotto la soglia bassa urgente'
+'Abilita l'allarme urgente per dati mancanti'
+'Abilita l'allarme per dati mancanti'
+'Valore glicemia bassa urgente'
+'Valore glicemia bassa'
+'Valore glicemia alta urgente'
+'Valore glicemia alta'
+'Letture mancante (urgente) da ... (min)'
+'Letture mancante da ... (min)'
 )
 
 al_sta=('off' 'off' 'off' 'off' 'off' 'off')
@@ -51,8 +51,8 @@ options=(
   5 "${al_des[5]}" ${al_sta[5]}
 )
 
-cmd=(dialog --output-fd 1 --separate-output --ok-label 'Save'\
- --cancel-label 'Cancel' --checklist 'Enable these alarms:\nUse space to toggle.' 0 0 0)
+cmd=(dialog --output-fd 1 --separate-output --ok-label 'Salva'\
+ --cancel-label 'Cancella' --checklist 'Abilita questi allarmi:\nUsa spazio per cambiare.' 0 0 0)
 load-dialog () {
     choices=$("${cmd[@]}" "${options[@]}")
 }
@@ -74,9 +74,9 @@ if [ $exit_code = "0" ]
   done
 fi
 
-aldialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Setup alarm values" \
---form " Enter your alarm levels and delays below.\n\
-Use the unit you prefer, mmol/l or mg/dl. Nightscout will convert automatically." 12 50 0 \
+aldialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Impostazione valori di allarmi" \
+--form " Digita livelli e ritardi sotto.\n\
+ Usa l'unita che vuoi, mmol/l o mg/dl. Nightscout convertira automaticamente." 12 50 0 \
 "${al_des[6]}: " 1 1 "${al_sta[6]}" 1 14 4 0 \
 "${al_des[7]}: " 1 1 "${al_sta[7]}" 2 14 4 0 \
 "${al_des[8]}: " 1 1 "${al_sta[8]}" 3 14 4 0 \
@@ -96,9 +96,9 @@ if [ $status = 0 ]
   done
 fi
 
-aldialog=$(dialog --clear --backtitle "$BACKTITLE" --title "Setup alarm values" \
---form " Enter your alarm levels and delays below.\n\
- Use the unit you prefer, mmol/l or mg/dl.\n Nightscout will convert them automatically." 15 55 0 \
+aldialog=$(dialog --clear --backtitle "$BACKTITLE" --title "SImpostazione valori di allarmi" \
+--form " Digita livelli e ritardi sotto.\n\
+ Usa l'unita che vuoi, mmol/l o mg/dl. Nightscout convertira automaticamente." 15 55 0 \
 "${al_des[6]}" 1 1 "${al_sta[6]}" 1 45 4 0 \
 "${al_des[7]}" 2 1 "${al_sta[7]}" 2 45 4 0 \
 "${al_des[8]}" 3 1 "${al_sta[8]}" 3 45 4 0 \

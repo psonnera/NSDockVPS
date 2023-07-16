@@ -7,11 +7,11 @@
 #
 ######################################################################################################
 
-echo -e "\x1b[37;44mInitial configuration for Docker compose deploy.                                                  \x1b[0m"
+echo -e "\x1b[37;44mConfigurazione iniziale per il deploy di Docker compose.                                          \x1b[0m"
 
 # might need rework as it's absolutely not foolproof
 
-BACKTITLE="Nightscout Docker VPS Setup"
+BACKTITLE="Creazione di Nightscout Docker VPS"
 
 # DDNS URL name configuration
 
@@ -20,16 +20,11 @@ cd /nightscout
 ipaddress==$(wget -q -O - http://checkip.dyndns.org|sed s/[^0-9.]//g)
 
 reset
-echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
+#echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
 if [ ! -f config_dns.txt ] # DDNS configuration undefined
   then
-  dnsname=$(\dialog --clear --backtitle "$BACKTITLE" \
-       --nocancel --ok-label "Test URL" --title "DNS name setup" \
-       --inputbox "Create a Nightscout URL with FreeDNS or Dynu or any other DDNS service of your choice.\n\
-Use the address $ipaddress \n\
-Once setup type the URL below without https://\n(For example: mybg.mooo.com)" 10 100 \
-        3>&1 1>&2 2>&3 3>&- )
-  echo $dnsname > config_dns.txt
+  hostname -A > config_dns.txt
+  read dnsname < config_dns.txt
   sudo hostnamectl set-hostname $dnsname
 fi
 
@@ -65,8 +60,8 @@ then
   reset
   echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
   emailname=$(\dialog --clear --backtitle "$BACKTITLE" \
-       --nocancel --ok-label "Confirm email" --title "Email setup" \
-       --inputbox "Traefic needs your email for urgent notifications.\nEnter it below." 10 50 \
+       --nocancel --ok-label "Conferma email" --title "Impostazione Email" \
+       --inputbox "Traefic necessita la tua mail per le notifiche urgente.\nDigitalo sotto." 10 50 \
         3>&1 1>&2 2>&3 3>&- )
   sudo sed -i "s/YOUR_EMAIL/$emailname/" /nightscout/docker-compose.yml
 fi
@@ -78,15 +73,15 @@ then
   reset
   echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
   apisecret=$(\dialog --clear --backtitle "$BACKTITLE" \
-       --nocancel --ok-label "Confirm API_SECRET" --title "Setup your API_SECRET" \
-       --inputbox "This is the password to enter your Nightscout site and settings.\nIt must be at least 12 characters long.\nUse only letters and numbers, no spaces." 10 50 \
+       --nocancel --ok-label "Conferma API_SECRET" --title "Imposta il tuo API_SECRET" \
+       --inputbox "E la password per entrare nel tuo sito Nightscout.\nMinimo 12 caratteri.\nSolo lettere e numeri, no spazi." 10 50 \
         3>&1 1>&2 2>&3 3>&- )
   sudo sed -i "s/YOUR_API_SECRET/$apisecret/" /nightscout/docker-compose.yml
 fi
 
 # Let's build the pack!
 
-echo -e "\x1b[37;44mRestarting/rebuilding Nightscout... Please wait                                                   \x1b[0m"
+echo -e "\x1b[37;44mRiavvio/redeploy di Nightscout... Aspetta                                                         \x1b[0m"
 
 cd /nightscout
 nohup sudo docker compose up -d	&	# run it in background

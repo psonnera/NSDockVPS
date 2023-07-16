@@ -7,7 +7,7 @@
 #
 ######################################################################################################
 
-echo -e "\x1b[37;44mWelcome to Nightscout.                                                                            \x1b[0m"
+echo -e "\x1b[37;44mBenvenuto in Nightscout.                                                                          \x1b[0m"
 cd /nightscout/NSDockVPS
 
 # We don't want to run Nightscout as root

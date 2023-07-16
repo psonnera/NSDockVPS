@@ -13,7 +13,7 @@
 ######################################################################################################
 
 reset
-echo -e "\x1b[37;44;1m   Nightscout Scripted Install on Ubuntu VPS   \x1b[0m"
+echo -e "\x1b[37;44;1m   Installazione Nightscout in un VPS Ubuntu IONOS   \x1b[0m"
 echo
 echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⣴⣶⣾⣿⣿⣿⣿⣿⣷⣶⣦⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣶⣿⣿⣿⡿⠿⠛⠛⠛⠛⠛⠛⠛⠿⢿⣿⣿⣿⣷⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
@@ -41,39 +41,39 @@ echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⣿⣿⣷⣄⠀�
 echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣷⣤⣾⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠿⠿⠿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 echo
-echo "               Welcome to Nightscout."
+echo "               Benvenuti in Nightscout."
 echo "         Open source. Open data. Open hearts."
 sleep 5
 clear
 echo -e "\x1b[37;44m                                                                                                  \x1b[0m"
-echo -e "\x1b[37;44m            DISCLAIMER                                                                            \x1b[0m"
+echo -e "\x1b[37;44m            Esclusione di responsabilità                                                          \x1b[0m"
 echo -e "\x1b[37;44m                                                                                                  \x1b[0m"
-echo -e "\nThis scripted Nightscout deployment is provided for educational purposes only.\n"
-echo -e "NEITHER THE AUTHOR NOR CONTRIBUTORS TO THE PUBLIC REPOSITORIES INVOLVED SHALL BE LIABLE FOR ANY"
-echo -e "DAMAGES OR LOSSES ARISING FROM ANY USE, MISUSE, RELIANCE ON, INABILITY TO USE, INTERRUPTION,"
-echo -e "SUSPENSION OR TERMINATION OF THIS NIGHTSCOUT AND ITS ENVIRONMENT, INCLUDING ANY INTERRUPTIONS"
-echo -e "DUE TO SYSTEM FAILURES, NETWORK ATTACKS, OR SCHEDULED OR UNSCHEDULED MAINTENANCE OF THE VPS."
-echo -e "\nPress Enter to continue and accept, press Ctrl-C or close this window if you do not agree.\n"
+echo -e "\nQuesto deployment di Nightscout e fornito soltanto a titolo ludico e educativo.\n"
+echo -e "NE IL SUO AUTORE NE QUALSIASI CONTRIBUTORE DEGLI DEPOSITI PUBBLICI PUO ESSERE DICHIARATO RESPONSABILE"
+echo -e "DI QUALSIAI DANNO O PERDITA LEGATE A L'USO, ABUSO, AFFIDAMENTO SU, INCAPACITA DI USO, INTERRUZIONE,"
+echo -e "SOSPENSIONE O CESSAZIONE DI QUESTO NIGHTSCOUT E DEL SUO AMBIENTE, INCLUDENDO QUALSIASI INTERRUZIONE"
+echo -e "LEGATE A FALLIMENTO DEL SISTEMA, ATTACCHI INFORMATICI, MANUTENZIONE SCHEDULATA O NON SCHEDULATA."
+echo -e "\nPremi Invio per proseguire e accettare le condizioni, oppure Ctrl-C per chiudere se non accetti.\n"
 read dummy </dev/tty
 
-echo -e "\x1b[37;44mLet me prepare things for you...                                                                  \x1b[0m"
+echo -e "\x1b[37;44mLasciami preparare le cose per te                                                                 \x1b[0m"
 echo
 
 sudo apt-get update
 
 # We need 20.04 for the MongoDB issue with 22.04
-echo -e "\x1b[37;44mChecking OS is Ubuntu 20.04.                                                                      \x1b[0m"
+echo -e "\x1b[37;44mVerifico che siamo in Ubuntu 20.04.                                                               \x1b[0m"
 ubversion="$(cat /etc/issue | awk '{print $2}')"
 if [[ ! "$ubversion" = "20.04"* ]]
   then
   echo
-  echo -e "\x1b[31;40;1mThis Nightscout deployment script will only work with Ubuntu 20.04LTS x64\x1b[0m"
-  echo -e "\x1b[37;41;1mNightscout install failed - wrong Ubuntu version.\x1b[0m"
+  echo -e "\x1b[31;40;1mQuesto script e previsto per Ubuntu 20.04LTS x64\x1b[0m"
+  echo -e "\x1b[37;41;1mInstallazione fallita - versione Ubuntu sbagliata.\x1b[0m"
   echo
   exit
 fi
 
-echo -e "\x1b[37;44mInstalling utilities.                                                                             \x1b[0m"
+echo -e "\x1b[37;44mInstallo gli utilitari.                                                                           \x1b[0m"
 sudo apt-get -y install dialog
 sudo apt-get -y install nano
 sudo apt-get -y install iputils-ping
@@ -84,7 +84,7 @@ sudo apt-get -y install iputils-ping
 dskspace="$(df / | sed -n 2p | awk '{print $4}')"
 if [ "$dskspace" -lt 10485760 ] # less than 10GB free
 then
-  echo -e "\x1b[37;44mThis is a very small VPS, no swap file and forced logs cleanup.                                   \x1b[0m"
+  echo -e "\x1b[37;44mE una VPS piccolissima, niente swap file e pulizia dei logs forzata.                              \x1b[0m"
 	# If it's a small VPS we need to keep it clean
 	sudo cat > /etc/cron.daily/journalctl << "EOF"
 #!/bin/sh
@@ -104,7 +104,7 @@ EOF
 fi
 
 # Now install Docker
-echo -e "\x1b[37;44mInstalling Docker.                                                                                \x1b[0m"
+echo -e "\x1b[37;44mInstallo Docker.                                                                                  \x1b[0m"
 sudo apt-get update
 sudo apt-get -y install ca-certificates curl gnupg lsb-release
 sudo mkdir -p /etc/apt/keyrings
@@ -129,11 +129,11 @@ cd /nightscout
 echo -e "\x1b[37;44mForking scripts and Nightscout.                                                                   \x1b[0m"
 if [ ! -d NSDockVPS ] # copy the scripts or update them
   then
-  sudo git clone https://github.com/psonnera/NSDockVPS.git
+  sudo git clone -b ionos_it https://github.com/psonnera/NSDockVPS.git
   else
   cd NSDockVPS
   sudo git reset --hard
-  sudo git pull
+  sudo git pull origin ionos_it
   cd ..
 fi
 sudo chmod 775 /nightscout/NSDockVPS/*.sh

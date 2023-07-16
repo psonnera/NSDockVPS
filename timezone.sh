@@ -39,11 +39,11 @@ TimeZoneSelectionMenu ()
     done <<< "$regions"
 
     region=$(dialog   --stdout \
-                      --title "Select your timezones" \
+                      --title "Scegli il fuso orario" \
                       --backtitle " " \
-                      --ok-label "Next" \
+                      --ok-label "Continua" \
                       --no-cancel \
-                      --menu "Select a continent or ocean from the menu:" \
+                      --menu "Seleziona il continente:" \
                       20 30 30 \
                       "${regionsArray[@]}")
 
@@ -56,11 +56,11 @@ TimeZoneSelectionMenu ()
     done <<< "$options"
 
     tz=$(dialog     --stdout \
-                    --title "Timezones" \
+                    --title "Fuso orario" \
                     --backtitle " " \
-                    --ok-label "Next" \
-                    --cancel-label "Back to Regions" \
-                    --menu "Select your timezone in ${region}:" \
+                    --ok-label "Continua" \
+                    --cancel-label "Indietro" \
+                    --menu "Seleziona il fuso orario in ${region}:" \
                     20 40 30 \
                     "${optionsArray[@]}")
 
