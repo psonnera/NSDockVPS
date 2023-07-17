@@ -23,7 +23,6 @@ services:
 # Respect the format VARIABLE: value (with a space after :)
 #
 # Mandatory information
-      TZ: YOUR_TIMEZONE
       API_SECRET: YOUR_API_SECRET
       ENABLE: careportal sage iage cage iob cob basal upbat devicestatus dbsize cors
       SHOW_PLUGINS: careportal sage iob cob dbsize cors ar2

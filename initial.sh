@@ -43,16 +43,6 @@ if [  "`grep "DISK_SIZE" /nightscout/docker-compose.yml`" != "" ]
   sudo sed -i "s%DISK_SIZE%$dbspace%" /nightscout/docker-compose.yml 
 fi
 
-# TIMEZONE configuration
-
-if [  "`grep "YOUR_TIMEZONE" /nightscout/docker-compose.yml`" != "" ] # Let's update the time zone
-  then
-  reset
-  echo -e "\x1b[37;44mPress Enter to continue.                                                                          \x1b[0m"
-  tzone=`./timezone.sh`
-  sudo sed -i "s%YOUR_TIMEZONE%$tzone%" /nightscout/docker-compose.yml 
-fi
-
 # email configuration for traefik
 
 if [  "`grep "YOUR_EMAIL" /nightscout/docker-compose.yml`" != "" ]
