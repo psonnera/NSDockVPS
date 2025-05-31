@@ -61,18 +61,6 @@ echo
 
 sudo apt-get update
 
-# We need 20.04 for the MongoDB issue with 22.04
-echo -e "\x1b[37;44mChecking OS is Ubuntu 20.04.                                                                      \x1b[0m"
-ubversion="$(cat /etc/issue | awk '{print $2}')"
-if [[ ! "$ubversion" = "20.04"* ]]
-  then
-  echo
-  echo -e "\x1b[31;40;1mThis Nightscout deployment script will only work with Ubuntu 20.04LTS x64\x1b[0m"
-  echo -e "\x1b[37;41;1mNightscout install failed - wrong Ubuntu version.\x1b[0m"
-  echo
-  exit
-fi
-
 echo -e "\x1b[37;44mInstalling utilities.                                                                             \x1b[0m"
 sudo apt-get -y install dialog
 sudo apt-get -y install nano
